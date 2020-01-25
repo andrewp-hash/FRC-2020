@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -26,18 +25,18 @@ import org.frcteam2910.common.util.HolonomicDriveSignal;
 import static frc.robot.RobotMap.*;
 
 public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
-    private static final double TRACKWIDTH = 12.5;
-    private static final double WHEELBASE = 13.5;
+    private static final double TRACKWIDTH = 17.5;
+    private static final double WHEELBASE = 26;
 
     private static final DrivetrainSubsystem instance;
 
     private final SwerveModule frontLeftModule =
-            new Mk2SwerveModuleBuilder(new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+            new Mk2SwerveModuleBuilder(new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
                     .angleEncoder(
                             new AnalogInput(DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_ENCODER),
                             DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET)
                     .angleMotor(
-                            new Spark(DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_MOTOR),
+                            new CANSparkMax(DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .driveMotor(
                             new CANSparkMax(DRIVETRAIN_FRONT_LEFT_MODULE_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -49,31 +48,31 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                             new AnalogInput(DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_ENCODER),
                             DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET)
                     .angleMotor(
-                            new Spark(DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_MOTOR),
+                            new CANSparkMax(DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .driveMotor(
                             new CANSparkMax(DRIVETRAIN_FRONT_RIGHT_MODULE_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .build();
     private final SwerveModule backLeftModule =
-            new Mk2SwerveModuleBuilder(new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+            new Mk2SwerveModuleBuilder(new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
                     .angleEncoder(
                             new AnalogInput(DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_ENCODER),
                             DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET)
                     .angleMotor(
-                            new Spark(DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_MOTOR),
+                            new CANSparkMax(DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .driveMotor(
                             new CANSparkMax(DRIVETRAIN_BACK_LEFT_MODULE_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .build();
     private final SwerveModule backRightModule =
-            new Mk2SwerveModuleBuilder(new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
+            new Mk2SwerveModuleBuilder(new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0))
                     .angleEncoder(
                             new AnalogInput(DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_ENCODER),
                             DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET)
                     .angleMotor(
-                            new Spark(DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_MOTOR),
+                            new CANSparkMax(DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
                             Mk2SwerveModuleBuilder.MotorType.NEO)
                     .driveMotor(
                             new CANSparkMax(DRIVETRAIN_BACK_RIGHT_MODULE_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -111,7 +110,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
 
     private DrivetrainSubsystem() {
         synchronized (sensorLock) {
-            navX$sensorLock.setInverted(true);
+            navX$sensorLock.setInverted(false);
         }
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -168,7 +167,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
     public void resetGyroAngle(Rotation2 angle) {
         synchronized (sensorLock) {
             navX$sensorLock.setAdjustmentAngle(
-                    navX$sensorLock.getUnadjustedAngle().rotateBy(angle.inverse())
+                    navX$sensorLock.getUnadjustedAngle()
+                        .rotateBy(angle.inverse())
+                        .rotateBy(Rotation2.fromDegrees(30))
             );
         }
     }
