@@ -13,13 +13,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.buttons.Button;
+import frc.robot.commands.RunClimberCommand;
+import frc.robot.commands.RunIndexerCommand;
+import frc.robot.commands.StopIntakeCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.robot.input.Axis;
-import org.frcteam2910.common.robot.input.Controller;
+import frc.robot.subsystems.SpinnerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -29,16 +31,19 @@ import org.frcteam2910.common.robot.input.Controller;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  // private final DrivetrainSubsystem mDrivetrainSubsystem = DrivetrainSubsystem.getInstance();
+  private final DrivetrainSubsystem mDrivetrainSubsystem = DrivetrainSubsystem.getInstance();
   private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem mIndexerSubsystem = new IndexerSubsystem();
-  private XboxController controller = new XboxController(0);
-  private JoystickButton shooterButton = new JoystickButton(controller, 1);
-  private JoystickButton intakeButton = new JoystickButton(controller, 6);
-  private JoystickButton outtakeButton = new JoystickButton(controller, 5);
-  private JoystickButton indexerButton = new JoystickButton(controller, 3);
-
+  private final ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
+  private final SpinnerSubsystem mSpinnerSubsystem = new SpinnerSubsystem();
+  private final XboxController driverController = new XboxController(0);
+  private final XboxController operatorController = new XboxController(1);
+  private final JoystickButton shooterButton = new JoystickButton(operatorController, 1);
+  private final JoystickButton intakeButton = new JoystickButton(operatorController, 6);
+  private final JoystickButton outtakeButton = new JoystickButton(operatorController, 5);
+  private final JoystickButton spinnerButton = new JoystickButton(operatorController, 4);
+  
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -46,11 +51,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    // DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(mDrivetrainSubsystem));
-    mIndexerSubsystem.setDefaultCommand(new InstantCommand(() -> mIndexerSubsystem.stop()));
+    DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(mDrivetrainSubsystem, driverController));
+    mClimberSubsystem.setDefaultCommand(new RunClimberCommand(mClimberSubsystem, operatorController));
+    mIndexerSubsystem.setDefaultCommand(new RunIndexerCommand(mIndexerSubsystem, operatorController, driverController));
+    // mIntakeSubsystem.setDefaultCommand(new StopIntakeCommand(mIntakeSubsystem));
   }
 
   /**
+   * 
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
@@ -70,6 +78,9 @@ public class RobotContainer {
     intakeButton.whenPressed(new InstantCommand(() ->
       mIntakeSubsystem.extend()
     ));
+    intakeButton.whenReleased(new InstantCommand(() ->
+     mIntakeSubsystem.stop()
+    ));
 
     outtakeButton.whileHeld(new InstantCommand(() ->
       mIntakeSubsystem.outtake()
@@ -78,8 +89,12 @@ public class RobotContainer {
       mIntakeSubsystem.retract()
     ));
 
-    indexerButton.whileHeld(new InstantCommand(() ->
-      mIndexerSubsystem.run()
+    spinnerButton.whenPressed(new InstantCommand(() ->
+      mSpinnerSubsystem.run()
+    ));
+
+    spinnerButton.whenReleased(new InstantCommand(() ->
+      mSpinnerSubsystem.stop()
     ));
   }
 

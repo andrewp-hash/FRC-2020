@@ -15,31 +15,22 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class SpinnerSubsystem extends SubsystemBase {
  
-  private final CANSparkMax intakeMotor = new CANSparkMax(RobotMap.INTAKE_MOTOR, MotorType.kBrushless);
-  private final DoubleSolenoid intakeLeftPiston = new DoubleSolenoid(RobotMap.INTAKE_LEFT_AIR_IN, RobotMap.INTAKE_LEFT_AIR_OUT);
-  private final DoubleSolenoid intakeRightPiston = new DoubleSolenoid(RobotMap.INTAKE_RIGHT_AIR_IN, RobotMap.INTAKE_RIGHT_AIR_OUT);
+  private final CANSparkMax spinnerMotor = new CANSparkMax(RobotMap.SPINNER_MOTOR, MotorType.kBrushless);
+  private final DoubleSolenoid spinnerPiston = new DoubleSolenoid(RobotMap.SPINNER_AIR_IN, RobotMap.SPINNER_AIR_OUT);
   
-  public IntakeSubsystem() {
+  public SpinnerSubsystem() {
 
   }
-  public void extend() {
-    intakeRightPiston.set(Value.kForward);
-    intakeLeftPiston.set(Value.kForward);
-  }
-  public void retract() {
-    intakeRightPiston.set(Value.kReverse);
-    intakeLeftPiston.set(Value.kReverse);
 
+  public void run() {
+    spinnerMotor.set(0.5);
+    spinnerPiston.set(Value.kForward);
   }
-  public void intake() {
-    intakeMotor.set(.4);
-  }
-  public void outtake() {
-    intakeMotor.set(-0.4);
-  }
+ 
   public void stop() {
-    intakeMotor.set(0);
+    spinnerMotor.set(0);
+    spinnerPiston.set(Value.kReverse);
   }
 }

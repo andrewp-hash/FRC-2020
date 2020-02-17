@@ -13,8 +13,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private boolean isRunning = false;
 
   public ShooterSubsystem() {
-    upperMotor.configFactoryDefault(30);
-    lowerMotor.configFactoryDefault(30);
+    upperMotor.configFactoryDefault(40);
+    lowerMotor.configFactoryDefault(40);
     upperMotor.config_kF(1, 0, 30);
 		upperMotor.config_kP(1, 0.1, 30);
 		upperMotor.config_kI(1, 0, 30);
@@ -26,10 +26,9 @@ public class ShooterSubsystem extends SubsystemBase {
  }
   @Override
   public void periodic() {
-    System.out.println("running");
     if (isRunning) {
-      upperMotor.set(ControlMode.PercentOutput, 1);
-      lowerMotor.set(ControlMode.PercentOutput, 1);
+      upperMotor.set(ControlMode.PercentOutput, -.65);
+      lowerMotor.set(ControlMode.PercentOutput, .85);
       // upperMotor.set(ControlMode.Velocity, 0.75);
       // lowerMotor.set(ControlMode.Velocity, 0.75);
     } else {

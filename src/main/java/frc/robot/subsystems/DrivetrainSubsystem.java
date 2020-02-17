@@ -110,7 +110,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
 
     private DrivetrainSubsystem() {
         synchronized (sensorLock) {
-            navX$sensorLock.setInverted(false);
+            navX$sensorLock.setInverted(true);
         }
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -169,7 +169,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
             navX$sensorLock.setAdjustmentAngle(
                     navX$sensorLock.getUnadjustedAngle()
                         .rotateBy(angle.inverse())
-                        .rotateBy(Rotation2.fromDegrees(30))
+                        .rotateBy(Rotation2.fromDegrees(-90))
             );
         }
     }

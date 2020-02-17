@@ -1,7 +1,6 @@
 package frc.robot.motion;
 
 import java.util.Vector;
-
 import org.frcteam2910.common.math.MathUtils;
 import org.frcteam2910.common.math.Vector2;
 
