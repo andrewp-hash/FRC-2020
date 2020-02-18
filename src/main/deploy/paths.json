@@ -1,0 +1,134 @@
+{
+  "Aim to 3 from trench": {
+    "waypoints": [
+      {
+        "x": 289.9810291005763,
+        "y": 418.20744185011057,
+        "heading": -85.33226792946017,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 28.863691010574236
+      },
+      {
+        "x": 296.4403572002139,
+        "y": 323.097040269035,
+        "heading": -87.9542072103211,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 32.89863878350601
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.8025607736626257
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9,
+        "angle": 1.5707963267948966
+      }
+    ]
+  },
+  "Start line towards goal and shoot 3": {
+    "waypoints": [
+      {
+        "x": 302.3124736544298,
+        "y": 508.0339322322375,
+        "heading": 91.68500093071623,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 19.970077528586902
+      },
+      {
+        "x": 299.3764154273219,
+        "y": 550.3052218238266,
+        "heading": 90,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 31.116365949364194
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.030000000000000013,
+        "angle": 1.5732518009908592
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9480000000000007,
+        "angle": 2.1492403387558268
+      }
+    ]
+  },
+  "Start line towards trench and shoot 3": {
+    "waypoints": [
+      {
+        "x": 309.359013399489,
+        "y": 509.7952359652204,
+        "heading": -113.20249138508004,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 22.35680172348563
+      },
+      {
+        "x": 290.56824074599785,
+        "y": 418.20744185011057,
+        "heading": 270,
+        "handleBeforeLength": 29.355062216381327,
+        "handleAfterLength": 20
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9740000000000008,
+        "angle": 1.8339523702250364
+      }
+    ]
+  },
+  "Start line to Steal 2 and Aim": {
+    "waypoints": [
+      {
+        "x": 13.40434410700358,
+        "y": 502.7500210332888,
+        "heading": -68.80231191567083,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 30.855707769436535
+      },
+      {
+        "handleAfterLength": 102.92642646061579,
+        "handleBeforeLength": 22.2826963100384,
+        "heading": 16.571062592641617,
+        "x": 28.67184688796513,
+        "y": 402.35570825326465
+      },
+      {
+        "x": 290.56824074599785,
+        "y": 418.7945430944382,
+        "heading": 323.26835726128684,
+        "handleBeforeLength": 101.11131691847271,
+        "handleAfterLength": 20
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1580000000000001,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9200000000000007,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 1,
+        "t": 0.9880000000000008,
+        "angle": 1.8162630441840204
+      }
+    ]
+  }
+}
