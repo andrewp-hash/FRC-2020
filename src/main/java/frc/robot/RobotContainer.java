@@ -22,12 +22,14 @@ import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SpinnerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.ShooterDistances;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -39,14 +41,15 @@ public class RobotContainer {
   private final SpinnerSubsystem mSpinnerSubsystem = new SpinnerSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
-  private final JoystickButton shooterButton = new JoystickButton(operatorController, 1);
+  private final JoystickButton shooterCloseButton = new JoystickButton(operatorController, 3);
+  private final JoystickButton shooterMediumButton = new JoystickButton(operatorController, 1);
+  private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2);
   private final JoystickButton intakeButton = new JoystickButton(operatorController, 6);
   private final JoystickButton outtakeButton = new JoystickButton(operatorController, 5);
   private final JoystickButton spinnerButton = new JoystickButton(operatorController, 4);
-  
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
@@ -59,45 +62,29 @@ public class RobotContainer {
 
   /**
    * 
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     // controller.get().whenPressed(new InstantCommand(() ->
-    //   DrivetrainSubsystem.getInstance().resetGyroAngle(Rotation2.ZERO)
+    // DrivetrainSubsystem.getInstance().resetGyroAngle(Rotation2.ZERO)
     // ));
-    shooterButton.whileHeld(new InstantCommand(() ->
-      mShooterSubsystem.run()
-    ));
-    
-    intakeButton.whileHeld(new InstantCommand(() ->
-      mIntakeSubsystem.intake()
-    ));
-    intakeButton.whenPressed(new InstantCommand(() ->
-      mIntakeSubsystem.extend()
-    ));
-    intakeButton.whenReleased(new InstantCommand(() ->
-     mIntakeSubsystem.stop()
-    ));
+    shooterCloseButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_LINE)));
+    shooterMediumButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.FRONT_OF_TRENCH)));
+    shooterFarButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_TRENCH)));
+    intakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.intake()));
+    intakeButton.whenPressed(new InstantCommand(() -> mIntakeSubsystem.extend()));
+    intakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.stop()));
 
-    outtakeButton.whileHeld(new InstantCommand(() ->
-      mIntakeSubsystem.outtake()
-    ));
-    outtakeButton.whenPressed(new InstantCommand(() ->
-      mIntakeSubsystem.retract()
-    ));
+    outtakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.outtake()));
+    outtakeButton.whenPressed(new InstantCommand(() -> mIntakeSubsystem.retract()));
 
-    spinnerButton.whenPressed(new InstantCommand(() ->
-      mSpinnerSubsystem.run()
-    ));
+    spinnerButton.whenPressed(new InstantCommand(() -> mSpinnerSubsystem.run()));
 
-    spinnerButton.whenReleased(new InstantCommand(() ->
-      mSpinnerSubsystem.stop()
-    ));
+    spinnerButton.whenReleased(new InstantCommand(() -> mSpinnerSubsystem.stop()));
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
