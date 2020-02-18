@@ -1,13 +1,10 @@
 package frc.robot.motion;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 import edu.wpi.first.wpilibj.Filesystem;
 
@@ -21,16 +18,15 @@ public class TrajectoryReader {
     protected static void loadTrajectories(Path filePath) throws IOException {
         if (trajectories != null)
             return;
-        BufferedReader reader;
-        reader = Files.newBufferedReader(filePath);
-        ObjectReader READER = new ObjectMapper().readerFor(Trajectory[].class);
+        var reader = Files.newBufferedReader(filePath);
+        var READER = new ObjectMapper().readerFor(Trajectory[].class);
         trajectories = READER.readValue(reader);
 
     }
 
     public static Trajectory getTrajectory(String trajectoryName) throws IOException {
         loadTrajectories();
-        for (Trajectory trajectory : trajectories) {
+        for (var trajectory : trajectories) {
             if (trajectory.name.equals(trajectoryName)) {
                 return trajectory;
             }

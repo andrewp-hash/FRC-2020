@@ -24,7 +24,7 @@ public class TrajectoryTest {
     @Test
     public void ReadTrajectoryTest() throws IOException {
         TrajectoryReader.loadTrajectories(Paths.get("./src/main/deploy/trajectories.json"));
-        Trajectory t = Trajectory.fromJSON("Aim to 3 from trench");
+        var t = Trajectory.fromJSON("Aim to 3 from trench");
         for (TrajectoryPoint p : t.points) {
             assertTrajectoryPoint(p);
         }
@@ -36,7 +36,7 @@ public class TrajectoryTest {
 
     @Test
     public void TrajectoryPointBetweenTest() {
-        TrajectoryPoint startPoint = new TrajectoryPoint();
+        var startPoint = new TrajectoryPoint();
 
         startPoint.x = 0.0;
         startPoint.y = 0.1;
@@ -46,7 +46,7 @@ public class TrajectoryTest {
         startPoint.angle = 2.0;
         startPoint.velocity = new Vector2d(-10, -10);
 
-        TrajectoryPoint endPoint = new TrajectoryPoint();
+        var endPoint = new TrajectoryPoint();
 
         endPoint.x = 1.0;
         endPoint.y = 0.3;
@@ -56,7 +56,7 @@ public class TrajectoryTest {
         endPoint.angle = 2.1;
         endPoint.velocity = new Vector2d(10, 12);
 
-        TrajectoryPoint betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(startPoint, endPoint, 0.5);
+        var betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(startPoint, endPoint, 0.5);
 
         Assertions.assertEquals(betweenPoint.x, 0.5);
         Assertions.assertEquals(betweenPoint.y, 0.2);

@@ -13,7 +13,7 @@ public class TrajectoryPoint {
 
     public static TrajectoryPoint createTrajectoryPointBetween(TrajectoryPoint before, TrajectoryPoint after,
             double percentage) {
-        TrajectoryPoint newPoint = new TrajectoryPoint();
+        var newPoint = new TrajectoryPoint();
         newPoint.x = MathUtils.lerp(before.x, after.x, percentage);
         newPoint.y = MathUtils.lerp(before.y, after.y, percentage);
         newPoint.heading = MathUtils.lerp(before.heading, after.heading, percentage);
