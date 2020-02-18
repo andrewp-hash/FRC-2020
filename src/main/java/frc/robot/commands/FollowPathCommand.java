@@ -11,6 +11,7 @@ import org.frcteam2910.common.math.Vector2;
 public class FollowPathCommand extends CommandBase {
     DrivetrainSubsystem drivetrain;
     double lastTime;
+
     public FollowPathCommand(DrivetrainSubsystem drivetrain) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
@@ -21,11 +22,8 @@ public class FollowPathCommand extends CommandBase {
         // TrajectoryPoint beforePoint = new TrajectoryPoint();
         // TrajectoryPoint afterPoint = new TrajectoryPoint();
 
-        // TrajectoryPoint betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, 0.5);
-
-        // double forward = Robot.getOi().getDriveForwardAxis().get(true);
-        // double strafe = Robot.getOi().getDriveStrafeAxis().get(true);
-        // double rotation = Robot.getOi().getDriveRotationAxis().get(true);
+        // TrajectoryPoint betweenPoint =
+        // TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, 0.5);
 
         // drivetrain.drive(new Vector2(forward, strafe), rotation, true);
         double time = Timer.getFPGATimestamp();
