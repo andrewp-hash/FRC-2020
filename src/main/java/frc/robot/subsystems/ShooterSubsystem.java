@@ -38,7 +38,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(upperMotor.getSelectedSensorVelocity() / 100 * 1000 / 2048 * 60);
+    // System.out.println(upperMotor.getSelectedSensorVelocity() / 100 * 1000 / 2048
+    // * 60);
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
         upperMotor.set(ControlMode.PercentOutput, -.4);
