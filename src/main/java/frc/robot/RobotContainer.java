@@ -76,13 +76,13 @@ public class RobotContainer {
     shooterFarButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_TRENCH)));
     intakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.intake()));
     intakeButton.whenPressed(new InstantCommand(() -> mIntakeSubsystem.extend()));
+    intakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.retract()));
     intakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.stop()));
 
     outtakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.outtake()));
-    outtakeButton.whenPressed(new InstantCommand(() -> mIntakeSubsystem.retract()));
+    outtakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.stop()));
 
     spinnerButton.whenPressed(new InstantCommand(() -> mSpinnerSubsystem.run()));
-
     spinnerButton.whenReleased(new InstantCommand(() -> mSpinnerSubsystem.stop()));
   }
 

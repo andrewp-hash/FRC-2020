@@ -16,19 +16,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class SpinnerSubsystem extends SubsystemBase {
- 
+
   private final CANSparkMax spinnerMotor = new CANSparkMax(RobotMap.SPINNER_MOTOR, MotorType.kBrushless);
   private final DoubleSolenoid spinnerPiston = new DoubleSolenoid(RobotMap.SPINNER_AIR_IN, RobotMap.SPINNER_AIR_OUT);
-  
+
   public SpinnerSubsystem() {
 
   }
 
   public void run() {
-    spinnerMotor.set(0.5);
+    spinnerMotor.set(1);
     spinnerPiston.set(Value.kForward);
   }
- 
+
   public void stop() {
     spinnerMotor.set(0);
     spinnerPiston.set(Value.kReverse);

@@ -11,6 +11,7 @@ public class DriveCommand extends CommandBase {
     DrivetrainSubsystem drivetrain;
     XboxController controller;
     double lastTime;
+
     public DriveCommand(DrivetrainSubsystem drivetrain, XboxController controller) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
@@ -24,7 +25,20 @@ public class DriveCommand extends CommandBase {
         double rotationRaw = controller.getRawAxis(4);
         double rotation = -0.8 * Math.pow(rotationRaw, 2) * Math.signum(rotationRaw);
 
+        if (Math.abs(forward) < .01) {
+            forward = 0;
+        }
+
+        if (Math.abs(strafe) < .01) {
+            strafe = 0;
+        }
+
+        if (Math.abs(rotation) < .01) {
+            rotation = 0;
+        }
+
         drivetrain.drive(new Vector2(forward, strafe), rotation, true);
+        // drivetrain.drive(new Vector2(0.01, 0), 0, false);
         double time = Timer.getFPGATimestamp();
         drivetrain.update(time, time - lastTime);
         lastTime = time;

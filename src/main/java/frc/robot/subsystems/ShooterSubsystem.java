@@ -42,14 +42,14 @@ public class ShooterSubsystem extends SubsystemBase {
     // * 60);
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
-        upperMotor.set(ControlMode.PercentOutput, -.4);
-        lowerMotor.set(ControlMode.PercentOutput, .5);
+        upperMotor.set(ControlMode.PercentOutput, -.05);
+        lowerMotor.set(ControlMode.PercentOutput, .85);
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upperMotor.set(ControlMode.PercentOutput, -.4);
-        lowerMotor.set(ControlMode.PercentOutput, .27);
+        upperMotor.set(ControlMode.PercentOutput, -.65);
+        lowerMotor.set(ControlMode.PercentOutput, .45);
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
         upperMotor.set(ControlMode.PercentOutput, -.85);
-        lowerMotor.set(ControlMode.PercentOutput, .35);
+        lowerMotor.set(ControlMode.PercentOutput, .65);
       }
     } else {
       upperMotor.set(ControlMode.PercentOutput, 0);
