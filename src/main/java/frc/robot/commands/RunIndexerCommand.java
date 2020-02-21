@@ -9,7 +9,8 @@ public class RunIndexerCommand extends CommandBase {
   private XboxController operatorController;
   private XboxController driverController;
 
-  public RunIndexerCommand(IndexerSubsystem indexer, XboxController operatorController, XboxController driverController) {
+  public RunIndexerCommand(IndexerSubsystem indexer, XboxController operatorController,
+      XboxController driverController) {
     m_indexer = indexer;
     addRequirements(indexer);
     this.operatorController = operatorController;
@@ -19,15 +20,16 @@ public class RunIndexerCommand extends CommandBase {
   @Override
   public void execute() {
     double TRIGGER_THRESHOLD = 0.75;
-    if (operatorController.getRawAxis(3) > TRIGGER_THRESHOLD ||  driverController.getRawAxis(3) > TRIGGER_THRESHOLD) {
-        m_indexer.runFront();
+    if (operatorController.getRawAxis(3) > TRIGGER_THRESHOLD || driverController.getRawAxis(3) > TRIGGER_THRESHOLD
+        || !m_indexer.isLowerTriggered() || !m_indexer.isUpperTriggered()) {
+      m_indexer.runFront();
     } else {
-        m_indexer.stopFront();
+      m_indexer.stopFront();
     }
-    if (driverController.getRawAxis(3) > TRIGGER_THRESHOLD) {
-        m_indexer.runBack();
+    if (driverController.getRawAxis(3) > TRIGGER_THRESHOLD || !m_indexer.isUpperTriggered()) {
+      m_indexer.runBack();
     } else {
-        m_indexer.stopBack();
+      m_indexer.stopBack();
     }
   }
 }
