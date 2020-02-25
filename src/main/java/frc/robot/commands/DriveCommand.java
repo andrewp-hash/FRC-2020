@@ -25,15 +25,15 @@ public class DriveCommand extends CommandBase {
         double rotationRaw = controller.getRawAxis(4);
         double rotation = -0.8 * Math.pow(rotationRaw, 2) * Math.signum(rotationRaw);
 
-        if (Math.abs(forward) < .01) {
+        if (Math.abs(forward) < .015) {
             forward = 0;
         }
 
-        if (Math.abs(strafe) < .01) {
+        if (Math.abs(strafe) < .015) {
             strafe = 0;
         }
 
-        if (Math.abs(rotation) < .01) {
+        if (Math.abs(rotation) < .015) {
             rotation = 0;
         }
 

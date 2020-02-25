@@ -45,8 +45,8 @@ public class ShooterSubsystem extends SubsystemBase {
         upperMotor.set(ControlMode.PercentOutput, -.05);
         lowerMotor.set(ControlMode.PercentOutput, .85);
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upperMotor.set(ControlMode.PercentOutput, -.65);
-        lowerMotor.set(ControlMode.PercentOutput, .45);
+        upperMotor.set(ControlMode.PercentOutput, -.80);
+        lowerMotor.set(ControlMode.PercentOutput, .65);
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
         upperMotor.set(ControlMode.PercentOutput, -.85);
         lowerMotor.set(ControlMode.PercentOutput, .65);

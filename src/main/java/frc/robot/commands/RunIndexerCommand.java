@@ -7,26 +7,23 @@ import frc.robot.subsystems.IndexerSubsystem;
 public class RunIndexerCommand extends CommandBase {
   private final IndexerSubsystem m_indexer;
   private XboxController operatorController;
-  private XboxController driverController;
 
-  public RunIndexerCommand(IndexerSubsystem indexer, XboxController operatorController,
-      XboxController driverController) {
+  public RunIndexerCommand(IndexerSubsystem indexer, XboxController operatorController) {
     m_indexer = indexer;
     addRequirements(indexer);
     this.operatorController = operatorController;
-    this.driverController = driverController;
   }
 
   @Override
   public void execute() {
     double TRIGGER_THRESHOLD = 0.75;
-    if (operatorController.getRawAxis(3) > TRIGGER_THRESHOLD || driverController.getRawAxis(3) > TRIGGER_THRESHOLD
-        || !m_indexer.isLowerTriggered() || !m_indexer.isUpperTriggered()) {
+    if (operatorController.getRawAxis(3) > TRIGGER_THRESHOLD || !m_indexer.isLowerTriggered()
+        || !m_indexer.isUpperTriggered()) {
       m_indexer.runFront();
     } else {
       m_indexer.stopFront();
     }
-    if (driverController.getRawAxis(3) > TRIGGER_THRESHOLD || !m_indexer.isUpperTriggered()) {
+    if (operatorController.getRawAxis(3) > TRIGGER_THRESHOLD || !m_indexer.isUpperTriggered()) {
       m_indexer.runBack();
     } else {
       m_indexer.stopBack();
