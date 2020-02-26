@@ -13,7 +13,7 @@ public class RobotMap {
 
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_ENCODER = 2;
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_MOTOR = 5;
-    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(-41);
+    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(99);
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_DRIVE_MOTOR = 6;
 
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_ENCODER = 0;
