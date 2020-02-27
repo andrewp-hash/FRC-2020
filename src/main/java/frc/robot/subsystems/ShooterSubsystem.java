@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -20,11 +21,22 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     upperMotor.configFactoryDefault(40);
     lowerMotor.configFactoryDefault(40);
-    upperMotor.config_kF(1, 0, 30);
-    upperMotor.config_kP(1, 0.1, 30);
-    upperMotor.config_kI(1, 0, 30);
-    upperMotor.config_kD(1, 0, 30);
-    upperMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 1, 50);
+    lowerMotor.enableVoltageCompensation(true);
+    upperMotor.enableVoltageCompensation(true);
+    double kP = .5;
+    double kI = 0;
+    double kD = 0;
+    double kF = 0;
+    upperMotor.config_kF(0, kF, 30);
+    upperMotor.config_kP(0, kP, 30);
+    upperMotor.config_kI(0, kI, 30);
+    upperMotor.config_kD(0, kD, 30);
+    lowerMotor.config_kF(0, kF, 30);
+    lowerMotor.config_kP(0, kP, 30);
+    lowerMotor.config_kI(0, kI, 30);
+    lowerMotor.config_kD(0, kD, 30);
+    upperMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 50);
+    lowerMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 50);
   }
 
   public void stop() {
@@ -36,21 +48,35 @@ public class ShooterSubsystem extends SubsystemBase {
     this.distance = distance;
   }
 
+  public static double encToRPM(double enc) {
+    return enc / 100 * 1000 / 2048 * 60;
+  }
+
+  public static double RPMToEnc(double rpm) {
+    return rpm * 100 / 1000 * 2048 / 60;
+  }
+
   @Override
   public void periodic() {
-    // System.out.println(upperMotor.getSelectedSensorVelocity() / 100 * 1000 / 2048
-    // * 60);
+    // System.out.println(encToRPM(lowerMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
+      int upper = 0, lower = 0;
       if (distance == ShooterDistances.BEHIND_LINE) {
-        upperMotor.set(ControlMode.PercentOutput, -.05);
-        lowerMotor.set(ControlMode.PercentOutput, .85);
+        upper = -0;
+        lower = 5250;
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upperMotor.set(ControlMode.PercentOutput, -.80);
-        lowerMotor.set(ControlMode.PercentOutput, .65);
+        upper = -4875;
+        lower = 3920;
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
-        upperMotor.set(ControlMode.PercentOutput, -.85);
-        lowerMotor.set(ControlMode.PercentOutput, .65);
+        upper = -5190;
+        lower = 3920;
       }
+
+      if (upper == 0) {
+        upperMotor.set(ControlMode.PercentOutput, 0);
+      }
+      lowerMotor.set(ControlMode.Velocity, RPMToEnc(lower), DemandType.ArbitraryFeedForward, lower * (.65 / 3920));
+      upperMotor.set(ControlMode.Velocity, RPMToEnc(upper), DemandType.ArbitraryFeedForward, upper * (.65 / 3920));
     } else {
       upperMotor.set(ControlMode.PercentOutput, 0);
       lowerMotor.set(ControlMode.PercentOutput, 0);
