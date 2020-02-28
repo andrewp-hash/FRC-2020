@@ -1,24 +1,33 @@
 package frc.robot;
 
+import java.io.File;
+
+import edu.wpi.first.wpilibj.Filesystem;
+
 public class RobotMap {
+    // On the practice bot, there should be an empty file at /home/lvuser/isPractice
+    private static final File isPracticeFile = new File(
+            Filesystem.getOperatingDirectory().toPath().resolve("isPractice").toString());
+    public static final boolean isPractice = isPracticeFile.exists();
+
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_ENCODER = 3;
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_MOTOR = 7;
-    public static final double DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(-51);
+    public static final double DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -51 : 0);
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
 
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_ENCODER = 1;
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_MOTOR = 3;
-    public static final double DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(-52);
+    public static final double DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -52 : 0);
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4;
 
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_ENCODER = 2;
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_MOTOR = 5;
-    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(189);
+    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 189 : 0);
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_DRIVE_MOTOR = 6;
 
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_ENCODER = 0;
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_MOTOR = 1;
-    public static final double DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(152);
+    public static final double DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 152 : 0);
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_DRIVE_MOTOR = 2;
 
     public static final int UPPER_SHOOTER_MOTOR = 9;
