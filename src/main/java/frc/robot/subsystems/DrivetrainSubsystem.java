@@ -39,8 +39,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
         private NetworkTableEntry currentYEntry = currentPoseTable.getEntry("y");
         private NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
 
-        private final double X_SCALE = -1;
-        private final double Y_SCALE = -1;
+        private final double X_SCALE = 1;
+        private final double Y_SCALE = 1;
 
         private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
                         new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))

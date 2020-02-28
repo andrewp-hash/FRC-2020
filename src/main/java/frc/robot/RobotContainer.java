@@ -20,6 +20,7 @@ import frc.robot.commands.RunClimberCommand;
 import frc.robot.commands.RunIndexerCommand;
 import frc.robot.commands.StopIntakeCommand;
 import frc.robot.commands.autonomous.DriveForward;
+import frc.robot.commands.autonomous.TestPathAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -98,6 +99,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new DriveForward(mDrivetrainSubsystem);
+    // return new DriveForward(mDrivetrainSubsystem);
+    return new TestPathAuto(mDrivetrainSubsystem);
   }
 }

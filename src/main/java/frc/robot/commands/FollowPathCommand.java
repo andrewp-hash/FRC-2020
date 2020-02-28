@@ -5,30 +5,58 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.Robot;
 import frc.robot.motion.TrajectoryPoint;
+import frc.robot.motion.Trajectory;
+
+import java.io.IOException;
 
 import org.frcteam2910.common.math.Vector2;
 
 public class FollowPathCommand extends CommandBase {
-    DrivetrainSubsystem drivetrain;
-    double lastTime;
+    private DrivetrainSubsystem drivetrain;
+    private double lastTime;
+    private Trajectory trajectory;
+    private double startTime = 0;
 
-    public FollowPathCommand(DrivetrainSubsystem drivetrain) {
+    public FollowPathCommand(DrivetrainSubsystem drivetrain, String pathName) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
+        trajectory = Trajectory.fromJSON(pathName);
+    }
+
+    @Override
+    public void initialize() {
+        startTime = Timer.getFPGATimestamp();
     }
 
     @Override
     public void execute() {
-        // TrajectoryPoint beforePoint = new TrajectoryPoint();
-        // TrajectoryPoint afterPoint = new TrajectoryPoint();
+        double now = Timer.getFPGATimestamp();
+        var timeStamp = now - startTime;
+        TrajectoryPoint beforePoint = null;
+        TrajectoryPoint afterPoint = null;
+        TrajectoryPoint betweenPoint = null;
+        var lastPoint = trajectory.points[trajectory.points.length - 1];
+        if (timeStamp <= trajectory.points[0].time) {
+            betweenPoint = trajectory.points[0];
+        } else if (timeStamp >= lastPoint.time) {
+            betweenPoint = lastPoint;
+        } else {
+            for (int i = 0; i < trajectory.points.length; i++) {
+                var point = trajectory.points[i];
+                if (timeStamp > point.time) {
+                    afterPoint = point;
+                    beforePoint = i > 0 ? trajectory.points[i - 1] : point;
+                }
+            }
 
-        // TrajectoryPoint betweenPoint =
-        // TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, 0.5);
+            var percent = (timeStamp - beforePoint.time) / (afterPoint.time - beforePoint.time);
+            betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, percent);
+        }
 
-        // drivetrain.drive(new Vector2(forward, strafe), rotation, true);
-        double time = Timer.getFPGATimestamp();
-        drivetrain.update(time, time - lastTime);
-        lastTime = time;
+        drivetrain.drive(new Vector2(betweenPoint.velocity.x, betweenPoint.velocity.y), betweenPoint.angularVelocity,
+                true);
+        drivetrain.update(now, now - lastTime);
+        lastTime = now;
     }
 
     @Override

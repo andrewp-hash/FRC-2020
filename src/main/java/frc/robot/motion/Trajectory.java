@@ -2,11 +2,11 @@ package frc.robot.motion;
 
 import java.io.IOException;
 
-class Trajectory {
+public class Trajectory {
     public String name;
     public TrajectoryPoint[] points;
 
-    static Trajectory fromJSON(String trajectoryName) {
+    public static Trajectory fromJSON(String trajectoryName) {
         try {
             return TrajectoryReader.getTrajectory(trajectoryName);
         } catch (IOException e) {
