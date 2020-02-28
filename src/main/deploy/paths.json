@@ -9,7 +9,7 @@
         "handleAfterLength": 28.863691010574236
       },
       {
-        "x": 296.4403572002139,
+        "x": 296.440357200213,
         "y": 323.097040269035,
         "heading": -87.9542072103211,
         "handleBeforeLength": 20,
@@ -32,15 +32,15 @@
   "Start line towards goal and shoot 3": {
     "waypoints": [
       {
-        "x": 302.3124736544298,
-        "y": 508.0339322322375,
-        "heading": 91.68500093071623,
+        "x": 308.15807186860275,
+        "y": 509.491575067852,
+        "heading": 121.5093084183726,
         "handleBeforeLength": 20,
-        "handleAfterLength": 19.970077528586902
+        "handleAfterLength": 21.307493402680258
       },
       {
-        "x": 299.3764154273219,
-        "y": 550.3052218238266,
+        "x": 298.1942053292056,
+        "y": 549.3391708399696,
         "heading": 90,
         "handleBeforeLength": 20,
         "handleAfterLength": 31.116365949364194
@@ -49,13 +49,13 @@
     "angles": [
       {
         "afterWaypoint": 0,
-        "t": 0.030000000000000013,
+        "t": 0.10000000000000007,
         "angle": 1.5732518009908592
       },
       {
         "afterWaypoint": 0,
-        "t": 0.9480000000000007,
-        "angle": 2.1492403387558268
+        "t": 0.9800000000000008,
+        "angle": 2.1664111325358437
       }
     ]
   },
@@ -79,7 +79,7 @@
     "angles": [
       {
         "afterWaypoint": 0,
-        "t": 0.1,
+        "t": 0.3820000000000003,
         "angle": 1.5707963267948966
       },
       {
@@ -121,13 +121,94 @@
       },
       {
         "afterWaypoint": 0,
-        "t": 0.9200000000000007,
-        "angle": 1.5707963267948966
+        "t": 0.7620000000000006,
+        "angle": 1.598047945018436
+      },
+      {
+        "afterWaypoint": 1,
+        "t": 0.032000000000000015,
+        "angle": 2.101606079682834
       },
       {
         "afterWaypoint": 1,
         "t": 0.9880000000000008,
         "angle": 1.8162630441840204
+      }
+    ]
+  },
+  "Drive off line 3 feet": {
+    "waypoints": [
+      {
+        "x": 223.75826118194453,
+        "y": 506,
+        "heading": -90,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 25.197744385309647
+      },
+      {
+        "x": 223.75826118194453,
+        "y": 470,
+        "heading": 270,
+        "handleBeforeLength": 38.09412276618331,
+        "handleAfterLength": 20
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.7440000000000005,
+        "angle": 1.5707963267948966
+      }
+    ]
+  },
+  "Test Circle 70\"": {
+    "waypoints": [
+      {
+        "x": 150,
+        "y": 470,
+        "handleAfterLength": 37,
+        "handleBeforeLength": 37,
+        "heading": 0
+      },
+      {
+        "handleAfterLength": 37,
+        "handleBeforeLength": 37,
+        "heading": -90,
+        "x": 220,
+        "y": 400
+      },
+      {
+        "handleAfterLength": 37,
+        "handleBeforeLength": 37,
+        "heading": 180,
+        "x": 150,
+        "y": 330
+      },
+      {
+        "handleAfterLength": 37,
+        "handleBeforeLength": 37,
+        "heading": 90,
+        "x": 80,
+        "y": 400
+      },
+      {
+        "x": 150,
+        "y": 470,
+        "handleBeforeLength": 37,
+        "handleAfterLength": 37,
+        "heading": 0
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 3,
+        "t": 0.99,
+        "angle": 4.71238898038
       }
     ]
   }
