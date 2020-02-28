@@ -8,9 +8,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import org.frcteam2910.common.math.Vector2;
 
 public class DriveCommand extends CommandBase {
-    DrivetrainSubsystem drivetrain;
-    XboxController controller;
-    double lastTime;
+    private DrivetrainSubsystem drivetrain;
+    private XboxController controller;
+    private double lastTime;
 
     public DriveCommand(DrivetrainSubsystem drivetrain, XboxController controller) {
         addRequirements(drivetrain);
@@ -20,7 +20,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double forward = controller.getRawAxis(1);
+        double forward = -controller.getRawAxis(1);
         double strafe = controller.getRawAxis(0);
         double rotationRaw = controller.getRawAxis(4);
         double rotation = -0.5 * Math.pow(rotationRaw, 2) * Math.signum(rotationRaw);
@@ -37,8 +37,9 @@ public class DriveCommand extends CommandBase {
             rotation = 0;
         }
 
-        drivetrain.drive(new Vector2(forward, strafe), rotation, true);
-        // drivetrain.drive(new Vector2(0.01, 0), 0, false);
+        drivetrain.drive(new Vector2(strafe, forward), rotation, true);
+        // drivetrain.drive(new Vector2(0.5, 0), 0, false);
+        // drivetrain.drive(new Vector2(0, 0), 0.05, false);
         double time = Timer.getFPGATimestamp();
         drivetrain.update(time, time - lastTime);
         lastTime = time;

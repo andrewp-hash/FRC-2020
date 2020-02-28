@@ -29,10 +29,8 @@ import org.frcteam2910.common.util.HolonomicDriveSignal;
 import static frc.robot.RobotMap.*;
 
 public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
-        // These are backwards because otherwise the rotation is wrong
-        // Sorry
-        private static final double TRACKWIDTH = 26;
-        private static final double WHEELBASE = 17.5;
+        private static final double TRACKWIDTH = 17.5;
+        private static final double WHEELBASE = 26;
 
         private static final DrivetrainSubsystem instance;
         NetworkTableInstance nt = NetworkTableInstance.getDefault();
@@ -41,7 +39,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
         private NetworkTableEntry currentYEntry = currentPoseTable.getEntry("y");
         private NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
 
-        private final double X_SCALE = 1;
+        private final double X_SCALE = -1;
         private final double Y_SCALE = -1;
 
         private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
@@ -91,11 +89,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
         private final SwerveModule[] modules = { frontLeftModule, frontRightModule, backLeftModule, backRightModule };
 
         private final SwerveKinematics kinematics = new SwerveKinematics(
-                        new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // Front
-                                                                          // Left
-                        new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), // Front Right
-                        new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // Back Left
-                        new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0) // Back Right
+                        new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0), // Front
+                                                                         // Left
+                        new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0), // Front Right
+                        new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // Back Left
+                        new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0) // Back Right
         );
         private final SwerveOdometry odometry = new SwerveOdometry(kinematics, RigidTransform2.ZERO);
 
@@ -158,24 +156,26 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
 
         public void drive(Vector2 translationalVelocity, double rotationalVelocity, boolean fieldOriented) {
                 synchronized (stateLock) {
-                        driveSignal$stateLock = new HolonomicDriveSignal(translationalVelocity, rotationalVelocity,
+                        driveSignal$stateLock = new HolonomicDriveSignal(translationalVelocity, -rotationalVelocity,
                                         fieldOriented);
                 }
         }
 
         public void resetPose(Vector2 translation, Rotation2 angle) {
+                System.out.println("Reset Pose");
                 synchronized (kinematicsLock) {
                         odometry.resetPose(new RigidTransform2(
-                                        new Vector2(translation.y / Y_SCALE, translation.x / X_SCALE), angle));
+                                        new Vector2(translation.x / X_SCALE, translation.y / Y_SCALE), angle));
                         pose$kinematicsLock = odometry.getPose();
                 }
                 updatePoseNT();
         }
 
         public void resetGyroAngle(Rotation2 angle) {
+                System.out.println("Reset Gyro Angle");
                 synchronized (sensorLock) {
-                        navX$sensorLock.setAdjustmentAngle(navX$sensorLock.getUnadjustedAngle()
-                                        .rotateBy(angle.inverse()).rotateBy(Rotation2.fromDegrees(-180)));
+                        navX$sensorLock.setAdjustmentAngle(
+                                        navX$sensorLock.getUnadjustedAngle().rotateBy(angle.inverse()));
                 }
         }
 
@@ -238,8 +238,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                 var pose = getPose();
 
                 currentAngleEntry.setDouble(pose.rotation.toRadians() + Math.PI / 2);
-                currentXEntry.setDouble(X_SCALE * pose.translation.y);
-                currentYEntry.setDouble(Y_SCALE * pose.translation.x);
+                currentXEntry.setDouble(X_SCALE * pose.translation.x);
+                currentYEntry.setDouble(Y_SCALE * pose.translation.y);
 
         }
 

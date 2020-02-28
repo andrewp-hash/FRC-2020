@@ -9,22 +9,27 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveForward extends CommandBase {
     private final DrivetrainSubsystem m_driveSubsystem;
     private double endTime;
-    public DriveForward (DrivetrainSubsystem driveSubsystem) {
+    private double lastTime;
+
+    public DriveForward(DrivetrainSubsystem driveSubsystem) {
         m_driveSubsystem = driveSubsystem;
         addRequirements(m_driveSubsystem);
     }
 
-    @Override 
+    @Override
     public void initialize() {
-        endTime = Timer.getFPGATimestamp() + 1.5;
-    } 
+        endTime = Timer.getFPGATimestamp() + 1;
+    }
 
     @Override
     public void execute() {
         m_driveSubsystem.drive(new Vector2(0, 0.5), 0, false);
+        double time = Timer.getFPGATimestamp();
+        m_driveSubsystem.update(time, time - lastTime);
+        lastTime = time;
     }
 
-    @Override 
+    @Override
     public boolean isFinished() {
         return Timer.getFPGATimestamp() > endTime;
     }
