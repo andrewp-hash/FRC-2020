@@ -22,9 +22,22 @@ public class DriveCommand extends CommandBase {
         double forward = controller.getRawAxis(1);
         double strafe = controller.getRawAxis(0);
         double rotationRaw = controller.getRawAxis(4);
-        double rotation = -0.8 * Math.pow(rotationRaw, 2) * Math.signum(rotationRaw);
+        double rotation = -0.5 * Math.pow(rotationRaw, 2) * Math.signum(rotationRaw);
+
+        if (Math.abs(forward) < .015) {
+            forward = 0;
+        }
+
+        if (Math.abs(strafe) < .015) {
+            strafe = 0;
+        }
+
+        if (Math.abs(rotation) < .015) {
+            rotation = 0;
+        }
 
         drivetrain.drive(new Vector2(forward, strafe), rotation, true);
+        // drivetrain.drive(new Vector2(0.01, 0), 0, false);
         double time = Timer.getFPGATimestamp();
         drivetrain.update(time, time - lastTime);
         lastTime = time;

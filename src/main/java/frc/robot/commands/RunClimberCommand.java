@@ -6,16 +6,22 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class RunClimberCommand extends CommandBase {
   private final ClimberSubsystem m_climber;
-  private XboxController operatorController;
+  private XboxController driverController;
 
   public RunClimberCommand(ClimberSubsystem climber, XboxController controller) {
     m_climber = climber;
     addRequirements(climber);
-    this.operatorController = controller;
+    this.driverController = controller;
   }
 
   @Override
   public void execute() {
-    m_climber.run(operatorController.getRawAxis(5));
+    double upSpeed = driverController.getRawAxis(3);
+    double downSpeed = driverController.getRawAxis(2);
+    if (upSpeed > 0) {
+      m_climber.run(upSpeed);
+    } else {
+      m_climber.run(-downSpeed);
+    }
   }
 }
