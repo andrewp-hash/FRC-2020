@@ -6,9 +6,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.RobotMap;
 
 public class TrajectoryTest {
     static void assertTrajectoryPoint(TrajectoryPoint p) {

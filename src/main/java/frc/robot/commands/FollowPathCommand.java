@@ -3,11 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.Robot;
 import frc.robot.motion.TrajectoryPoint;
 import frc.robot.motion.Trajectory;
-
-import java.io.IOException;
 
 import org.frcteam2910.common.math.Vector2;
 
