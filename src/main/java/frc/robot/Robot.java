@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.commands.FollowPathCommand;
 import frc.robot.motion.TrajectoryReader;
 
 /**
@@ -85,6 +86,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    // Reset so that if you enable auto multiple times, it does reset
+    FollowPathCommand.isFirstPath = true;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

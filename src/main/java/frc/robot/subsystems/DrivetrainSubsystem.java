@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -95,7 +94,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                         new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // Back Left
                         new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0) // Back Right
         );
-        private final SwerveOdometry odometry = new SwerveOdometry(kinematics, RigidTransform2.ZERO);
+        private final SwerveOdometry odometry = new SwerveOdometry(kinematics,
+                        new RigidTransform2(new Vector2(TRACKWIDTH / 2, WHEELBASE / 2), Rotation2.fromDegrees(90)));
 
         private final Object sensorLock = new Object();
         private final NavX navX$sensorLock = new NavX(SPI.Port.kMXP);
@@ -105,11 +105,6 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
 
         private final Object stateLock = new Object();
         private HolonomicDriveSignal driveSignal$stateLock = null;
-
-        // Logging stuff
-        private NetworkTableEntry poseXEntry;
-        private NetworkTableEntry poseYEntry;
-        private NetworkTableEntry poseAngleEntry;
 
         private NetworkTableEntry[] moduleAngleEntries = new NetworkTableEntry[modules.length];
 
@@ -123,9 +118,6 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                 }
 
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-                poseXEntry = tab.add("Pose X", 0.0).withPosition(0, 0).withSize(1, 1).getEntry();
-                poseYEntry = tab.add("Pose Y", 0.0).withPosition(0, 1).withSize(1, 1).getEntry();
-                poseAngleEntry = tab.add("Pose Angle", 0.0).withPosition(0, 2).withSize(1, 1).getEntry();
 
                 ShuffleboardLayout frontLeftModuleContainer = tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                 .withPosition(1, 0).withSize(2, 3);
@@ -154,6 +146,14 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                 }
         }
 
+        public RigidTransform2 getScaledPose() {
+                final var pose = getPose();
+                final var translation = pose.translation.multiply(X_SCALE, Y_SCALE);
+                final var rotation = pose.rotation.rotateBy(Rotation2.fromRadians(Math.PI / 2));
+
+                return new RigidTransform2(translation, rotation);
+        }
+
         public void drive(Vector2 translationalVelocity, double rotationalVelocity, boolean fieldOriented) {
                 synchronized (stateLock) {
                         driveSignal$stateLock = new HolonomicDriveSignal(translationalVelocity, -rotationalVelocity,
@@ -166,6 +166,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
                 synchronized (kinematicsLock) {
                         odometry.resetPose(new RigidTransform2(
                                         new Vector2(translation.x / X_SCALE, translation.y / Y_SCALE), angle));
+                        resetGyroAngle(angle);
                         pose$kinematicsLock = odometry.getPose();
                 }
                 updatePoseNT();
@@ -235,11 +236,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
         }
 
         private void updatePoseNT() {
-                var pose = getPose();
+                var pose = getScaledPose();
 
-                currentAngleEntry.setDouble(pose.rotation.toRadians() + Math.PI / 2);
-                currentXEntry.setDouble(X_SCALE * pose.translation.x);
-                currentYEntry.setDouble(Y_SCALE * pose.translation.y);
+                currentAngleEntry.setDouble(pose.rotation.toRadians());
+                currentXEntry.setDouble(pose.translation.x);
+                currentYEntry.setDouble(pose.translation.y);
 
         }
 

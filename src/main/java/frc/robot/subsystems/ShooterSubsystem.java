@@ -13,6 +13,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final TalonFX lowerMotor = new TalonFX(RobotMap.LOWER_SHOOTER_MOTOR);
   private boolean isRunning = false;
   private ShooterDistances distance = ShooterDistances.BEHIND_TRENCH;
+  private int lower = 0;
+  private int upper = 0;
 
   public enum ShooterDistances {
     BEHIND_TRENCH, FRONT_OF_TRENCH, BEHIND_LINE
@@ -56,11 +58,17 @@ public class ShooterSubsystem extends SubsystemBase {
     return rpm * 100 / 1000 * 2048 / 60;
   }
 
+  public boolean isAtSpeed() {
+    return Math.abs(encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower) < 5
+        && Math.abs(encToRPM(upperMotor.getSelectedSensorVelocity()) - upper) < 5;
+  }
+
   @Override
   public void periodic() {
+    lower = 0;
+    upper = 0;
     // System.out.println(encToRPM(lowerMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
-      int upper = 0, lower = 0;
       if (distance == ShooterDistances.BEHIND_LINE) {
         upper = -0;
         lower = 5250;

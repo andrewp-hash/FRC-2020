@@ -7,20 +7,14 @@
 
 package frc.robot;
 
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.math.Vector2;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunClimberCommand;
 import frc.robot.commands.RunIndexerCommand;
-import frc.robot.commands.StopIntakeCommand;
-import frc.robot.commands.autonomous.DriveForward;
-import frc.robot.commands.autonomous.TestPathAuto;
+import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -62,8 +56,6 @@ public class RobotContainer {
     DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(mDrivetrainSubsystem, driverController));
     mClimberSubsystem.setDefaultCommand(new RunClimberCommand(mClimberSubsystem, driverController));
     mIndexerSubsystem.setDefaultCommand(new RunIndexerCommand(mIndexerSubsystem, operatorController));
-    // mIntakeSubsystem.setDefaultCommand(new StopIntakeCommand(mIntakeSubsystem));
-    DrivetrainSubsystem.getInstance().resetPose(new Vector2(15.125, 141), Rotation2.fromDegrees(90));
   }
 
   /**
@@ -77,19 +69,20 @@ public class RobotContainer {
     // controller.get().whenPressed(new InstantCommand(() ->
     // DrivetrainSubsystem.getInstance().resetGyroAngle(Rotation2.ZERO)
     // ));
-    shooterCloseButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_LINE)));
-    shooterMediumButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.FRONT_OF_TRENCH)));
-    shooterFarButton.whileHeld(new InstantCommand(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_TRENCH)));
-    intakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.intake()));
-    intakeButton.whenPressed(new InstantCommand(() -> mIntakeSubsystem.extend()));
-    intakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.retract()));
-    intakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.stop()));
+    shooterCloseButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_LINE), mShooterSubsystem);
+    shooterMediumButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.FRONT_OF_TRENCH), mShooterSubsystem);
+    shooterFarButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_TRENCH), mShooterSubsystem);
 
-    outtakeButton.whileHeld(new InstantCommand(() -> mIntakeSubsystem.outtake()));
-    outtakeButton.whenReleased(new InstantCommand(() -> mIntakeSubsystem.stop()));
+    intakeButton.whileHeld(() -> mIntakeSubsystem.intake(), mIntakeSubsystem);
+    intakeButton.whenPressed(() -> mIntakeSubsystem.extend(), mIntakeSubsystem);
+    intakeButton.whenReleased(() -> mIntakeSubsystem.retract(), mIntakeSubsystem);
+    intakeButton.whenReleased(() -> mIntakeSubsystem.stop(), mIntakeSubsystem);
 
-    spinnerButton.whenPressed(new InstantCommand(() -> mSpinnerSubsystem.run()));
-    spinnerButton.whenReleased(new InstantCommand(() -> mSpinnerSubsystem.stop()));
+    outtakeButton.whileHeld(() -> mIntakeSubsystem.outtake(), mIntakeSubsystem);
+    outtakeButton.whenReleased(() -> mIntakeSubsystem.stop(), mIntakeSubsystem);
+
+    spinnerButton.whenPressed(() -> mSpinnerSubsystem.run(), mSpinnerSubsystem);
+    spinnerButton.whenReleased(() -> mSpinnerSubsystem.stop(), mSpinnerSubsystem);
   }
 
   /**
@@ -100,6 +93,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return new DriveForward(mDrivetrainSubsystem);
-    return new TestPathAuto(mDrivetrainSubsystem);
+    // return new TestPathAuto(mDrivetrainSubsystem);
+    return new TrenchAuto(mDrivetrainSubsystem, mShooterSubsystem, mIndexerSubsystem);
   }
 }
