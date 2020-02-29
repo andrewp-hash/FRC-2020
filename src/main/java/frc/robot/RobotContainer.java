@@ -47,7 +47,7 @@ public class RobotContainer {
   private final JoystickButton intakeButton = new JoystickButton(operatorController, 6);
   private final JoystickButton outtakeButton = new JoystickButton(operatorController, 5);
   private final JoystickButton spinnerButton = new JoystickButton(driverController, 6);
-  private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 7);
+  private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

@@ -67,17 +67,17 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     lower = 0;
     upper = 0;
-    // System.out.println(encToRPM(lowerMotor.getSelectedSensorVelocity(1)));
+    System.out.println(encToRPM(upperMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
         upper = -0;
         lower = 5250;
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upper = -4875;
+        upper = RobotMap.isPractice ? -4875 : -3100;
         lower = 3920;
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
-        upper = -5190;
-        lower = 3920;
+        upper = RobotMap.isPractice ? -5190 : -5650;
+        lower = RobotMap.isPractice ? 3920 : 2520;
       }
 
       if (upper == 0) {

@@ -9,9 +9,21 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.Limelight;
 
 public class VisionAlignCommand extends CommandBase {
-    private final double kP = 0.01;
-    private final double kI = 0.00;
-    private final double kD = 0.00;
+    // option 1 - just p
+    // private final double kP = 0.000625;
+    // private final double kI = 0.0000;
+    // private final double kD = 0.00;
+
+    // option 2 - pi
+    // private final double kP = 0.000425;
+    // private final double kI = 0.0008;
+    // private final double kD = 0.00;
+
+    // option 3 - pd
+    private final double kP = 0.000755;
+    private final double kI = 0.0000;
+    private final double kD = 0.00005;
+
     private final PIDController pid = new PIDController(kP, kI, kD);
     private final DrivetrainSubsystem drive;
     private double lastTime;
@@ -24,6 +36,7 @@ public class VisionAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
+
         lastTime = Timer.getFPGATimestamp();
         Limelight.enableTracking();
     }
@@ -38,7 +51,7 @@ public class VisionAlignCommand extends CommandBase {
 
         final var rotation = pid.calculate(error, 0);
 
-        if (error < 0.01)
+        if (error < 0.01 && error != 0)
             isFinished = true;
 
         final var now = Timer.getFPGATimestamp();
@@ -54,6 +67,6 @@ public class VisionAlignCommand extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
-        Limelight.disableTracking();
+        // Limelight.disableTracking();
     }
 }
