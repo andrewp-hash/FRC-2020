@@ -37,7 +37,7 @@ public class DriveCommand extends CommandBase {
         }
 
         drivetrain.drive(new Vector2(strafe, forward), rotation, true);
-        // drivetrain.drive(new Vector2(0.5, 0), 0, false);
+        // drivetrain.drive(new Vector2(0, 0.1), 0, false);
         // drivetrain.drive(new Vector2(0, 0), 0.05, false);
         double time = Timer.getFPGATimestamp();
         drivetrain.update(time, time - lastTime);

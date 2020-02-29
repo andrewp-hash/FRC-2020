@@ -12,22 +12,22 @@ public class RobotMap {
 
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_ENCODER = 3;
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_MOTOR = 7;
-    public static final double DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -51 : 0);
+    public static final double DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -51 : -108);
     public static final int DRIVETRAIN_FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
 
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_ENCODER = 1;
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_MOTOR = 3;
-    public static final double DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -52 : 0);
+    public static final double DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? -52 : 152);
     public static final int DRIVETRAIN_FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4;
 
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_ENCODER = 2;
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_MOTOR = 5;
-    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 189 : 0);
+    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 189 : -35);
     public static final int DRIVETRAIN_BACK_LEFT_MODULE_DRIVE_MOTOR = 6;
 
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_ENCODER = 0;
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_MOTOR = 1;
-    public static final double DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 152 : 0);
+    public static final double DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET = Math.toRadians(isPractice ? 152 : 95);
     public static final int DRIVETRAIN_BACK_RIGHT_MODULE_DRIVE_MOTOR = 2;
 
     public static final int UPPER_SHOOTER_MOTOR = 9;

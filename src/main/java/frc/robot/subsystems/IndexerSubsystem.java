@@ -24,7 +24,7 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void runBack() {
-    upperMotor.set(-.25);
+    upperMotor.set(-.15);
   }
 
   public void runFront() {

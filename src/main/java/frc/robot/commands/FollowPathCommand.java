@@ -50,8 +50,13 @@ public class FollowPathCommand extends CommandBase {
             betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, percent);
         }
 
-        drivetrain.drive(new Vector2(betweenPoint.velocity.x, betweenPoint.velocity.y), betweenPoint.angularVelocity,
-                true);
+        final var kF_x = 0.006735;
+        final var kF_y = 0.00684;
+
+        drivetrain.drive(new Vector2(betweenPoint.velocity.x, betweenPoint.velocity.y).multiply(kF_x, kF_y),
+                0 * betweenPoint.angularVelocity, true);
+        // drivetrain.drive(new Vector2(0, 0.5).multiply(kF, kF), 0 *
+        // betweenPoint.angularVelocity, true);
         drivetrain.update(now, now - lastTime);
         lastTime = now;
     }

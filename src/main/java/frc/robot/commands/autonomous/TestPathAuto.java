@@ -13,6 +13,6 @@ public class TestPathAuto extends SequentialCommandGroup {
     public TestPathAuto(DrivetrainSubsystem driveSubsystem) {
         m_driveSubsystem = driveSubsystem;
         addRequirements(m_driveSubsystem);
-        addCommands(new FollowPathCommand(m_driveSubsystem, "Start line towards goal and shoot 3"));
+        addCommands(new FollowPathCommand(m_driveSubsystem, "Measurement"));
     }
 }
