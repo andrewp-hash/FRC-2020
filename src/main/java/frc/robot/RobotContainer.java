@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunClimberCommand;
 import frc.robot.commands.RunIndexerCommand;
+import frc.robot.commands.VisionAlignCommand;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final JoystickButton intakeButton = new JoystickButton(operatorController, 6);
   private final JoystickButton outtakeButton = new JoystickButton(operatorController, 5);
   private final JoystickButton spinnerButton = new JoystickButton(driverController, 6);
+  private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 7);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -83,6 +85,8 @@ public class RobotContainer {
 
     spinnerButton.whenPressed(() -> mSpinnerSubsystem.run(), mSpinnerSubsystem);
     spinnerButton.whenReleased(() -> mSpinnerSubsystem.stop(), mSpinnerSubsystem);
+
+    visionTrackingButton.whileHeld(new VisionAlignCommand(mDrivetrainSubsystem));
   }
 
   /**
