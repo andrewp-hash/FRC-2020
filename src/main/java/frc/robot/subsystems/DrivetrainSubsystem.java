@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -27,7 +28,7 @@ import org.frcteam2910.common.util.HolonomicDriveSignal;
 
 import static frc.robot.RobotMap.*;
 
-public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.Updatable {
+public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 17.5;
     private static final double WHEELBASE = 26;
 
@@ -40,6 +41,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
 
     private final double X_SCALE = 1;
     private final double Y_SCALE = 1;
+    private double lastUpdated = Timer.getFPGATimestamp();
 
     private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
             new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0))
@@ -178,8 +180,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
         }
     }
 
-    @Override
-    public void update(double timestamp, double dt) {
+    private void update() {
+        final var now = Timer.getFPGATimestamp();
+        final var dt = now - lastUpdated;
+        lastUpdated = now;
+
         updateOdometry(dt);
 
         HolonomicDriveSignal driveSignal;
@@ -245,13 +250,6 @@ public class DrivetrainSubsystem extends SubsystemBase implements UpdateManager.
     @Override
     public void periodic() {
         updatePoseNT();
-        // poseXEntry.setDouble(pose.translation.x);
-        // poseYEntry.setDouble(pose.translation.y);
-        // poseAngleEntry.setDouble(pose.rotation.toDegrees());
-
-        // for (int i = 0; i < modules.length; i++) {
-        // var module = modules[i];
-        // moduleAngleEntries[i].setDouble(Math.toDegrees(module.getCurrentAngle()));
-        // }
+        update();
     }
 }

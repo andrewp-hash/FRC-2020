@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -9,7 +8,6 @@ import org.frcteam2910.common.math.Vector2;
 public class DriveCommand extends CommandBase {
     private DrivetrainSubsystem drivetrain;
     private XboxController controller;
-    private double lastTime;
 
     public DriveCommand(DrivetrainSubsystem drivetrain, XboxController controller) {
         addRequirements(drivetrain);
@@ -39,9 +37,6 @@ public class DriveCommand extends CommandBase {
         drivetrain.drive(new Vector2(strafe, forward), rotation, true);
         // drivetrain.drive(new Vector2(0, 0.1), 0, false);
         // drivetrain.drive(new Vector2(0, 0), 0.05, false);
-        double time = Timer.getFPGATimestamp();
-        drivetrain.update(time, time - lastTime);
-        lastTime = time;
     }
 
     @Override

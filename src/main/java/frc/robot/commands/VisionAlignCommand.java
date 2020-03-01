@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import org.frcteam2910.common.math.Vector2;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -26,7 +25,6 @@ public class VisionAlignCommand extends CommandBase {
 
     private final PIDController pid = new PIDController(kP, kI, kD);
     private final DrivetrainSubsystem drive;
-    private double lastTime;
     private boolean isFinished = false;
 
     public VisionAlignCommand(DrivetrainSubsystem drive) {
@@ -36,8 +34,6 @@ public class VisionAlignCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
-        lastTime = Timer.getFPGATimestamp();
         Limelight.enableTracking();
     }
 
@@ -55,10 +51,7 @@ public class VisionAlignCommand extends CommandBase {
         if (error < 0.05 && drive.getAngularVelocity() < 0.5)
             isFinished = true;
 
-        final var now = Timer.getFPGATimestamp();
         drive.drive(Vector2.ZERO, rotation, false);
-        drive.update(now, now - lastTime);
-        lastTime = now;
     }
 
     @Override

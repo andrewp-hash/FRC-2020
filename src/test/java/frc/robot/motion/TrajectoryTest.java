@@ -21,16 +21,20 @@ public class TrajectoryTest {
         Assertions.assertNotNull(p.velocity.y);
     }
 
-    @Test
-    public void ReadTrajectoryTest() throws IOException {
-        TrajectoryReader.loadTrajectories(Paths.get("./src/main/deploy/trajectories.json"));
-        var t = Trajectory.fromJSON("Aim to 3 from trench");
+    static void checkTrajectory(String name) {
+        var t = Trajectory.fromJSON(name);
         for (TrajectoryPoint p : t.points) {
             assertTrajectoryPoint(p);
         }
-        t = Trajectory.fromJSON("Start line towards goal and shoot 3");
-        for (TrajectoryPoint p : t.points) {
-            assertTrajectoryPoint(p);
+    }
+
+    @Test
+    public void ReadTrajectoryTest() throws IOException {
+        TrajectoryReader.loadTrajectories(Paths.get("./src/main/deploy/trajectories.json"));
+        String[] trajectoryNames = { "Start line towards trench and shoot 3", "Aim to 3 from trench",
+                "3 from trench to aim" };
+        for (var trajectoryName : trajectoryNames) {
+            checkTrajectory(trajectoryName);
         }
     }
 

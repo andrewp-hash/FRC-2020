@@ -14,9 +14,8 @@ import frc.robot.motion.TrajectoryPoint;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class FollowPathCommand extends CommandBase {
-    private DrivetrainSubsystem drivetrain;
-    private double lastTime;
-    private Trajectory trajectory;
+    private final DrivetrainSubsystem drivetrain;
+    private final Trajectory trajectory;
     private double startTime = 0;
     private double endTime = 0;
     public static boolean isFirstPath = true;
@@ -108,8 +107,6 @@ public class FollowPathCommand extends CommandBase {
         final var rotationResult = betweenPoint.angularVelocity * rotation_kF + rotationPidResult;
 
         drivetrain.drive(translationVector, rotationResult, true);
-        drivetrain.update(now, now - lastTime);
-        lastTime = now;
     }
 
     @Override
