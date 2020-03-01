@@ -1,14 +1,17 @@
 package frc.robot.commands;
 
+import org.frcteam2910.common.math.Rotation2;
+import org.frcteam2910.common.math.Vector2;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.motion.TrajectoryPoint;
 import frc.robot.motion.Trajectory;
-
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.math.Vector2;
+import frc.robot.motion.TrajectoryPoint;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class FollowPathCommand extends CommandBase {
     private DrivetrainSubsystem drivetrain;
@@ -18,13 +21,15 @@ public class FollowPathCommand extends CommandBase {
     private double endTime = 0;
     public static boolean isFirstPath = true;
 
+    private final String pathName;
+
     private final double translation_kF_x = 0.006735;
     private final double translation_kF_y = 0.00684;
     private final double translation_kP = 0.0;
     private final double translation_kI = 0.0;
     private final double translation_kD = 0.0;
 
-    private final double rotation_kF = 0.001;
+    private final double rotation_kF = 0.013;
     private final double rotation_kP = 0.0;
     private final double rotation_kI = 0.0;
     private final double rotation_kD = 0.0;
@@ -32,16 +37,25 @@ public class FollowPathCommand extends CommandBase {
     private final PIDController pid_y = new PIDController(translation_kP, translation_kI, translation_kD);
     private final PIDController pid_rotation = new PIDController(rotation_kP, rotation_kI, rotation_kD);
 
+    private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+    private final NetworkTable pathFollowingTable = nt.getTable("/pathFollowing");
+    private final NetworkTable targetPoseTable = nt.getTable("/pathFollowing/target");
+    private final NetworkTableEntry targetXEntry = targetPoseTable.getEntry("x");
+    private final NetworkTableEntry targetYEntry = targetPoseTable.getEntry("y");
+    private final NetworkTableEntry targetAngleEntry = targetPoseTable.getEntry("angle");
+    private final NetworkTableEntry currentPathEntry = pathFollowingTable.getEntry("currentPath");
+
     public FollowPathCommand(DrivetrainSubsystem drivetrain, String pathName) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
         trajectory = Trajectory.fromJSON(pathName);
+        this.pathName = pathName;
     }
 
     @Override
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
-        var lastPoint = trajectory.points[trajectory.points.length];
+        var lastPoint = trajectory.points[trajectory.points.length - 1];
         endTime = startTime + lastPoint.time;
         if (isFirstPath) {
             var firstPoint = trajectory.points[0];
@@ -49,6 +63,8 @@ public class FollowPathCommand extends CommandBase {
         }
 
         isFirstPath = false;
+
+        currentPathEntry.setValue(pathName);
     }
 
     @Override
@@ -76,6 +92,10 @@ public class FollowPathCommand extends CommandBase {
             betweenPoint = TrajectoryPoint.createTrajectoryPointBetween(beforePoint, afterPoint, percent);
         }
 
+        targetXEntry.setValue(betweenPoint.x);
+        targetYEntry.setValue(betweenPoint.y);
+        targetAngleEntry.setValue(betweenPoint.angle);
+
         final var currentPose = drivetrain.getScaledPose();
 
         final var feedForwardTranslationVector = new Vector2(betweenPoint.velocity.x, betweenPoint.velocity.y)
@@ -96,4 +116,10 @@ public class FollowPathCommand extends CommandBase {
     public boolean isFinished() {
         return Timer.getFPGATimestamp() > endTime;
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        currentPathEntry.setBoolean(false);
+    }
+
 }

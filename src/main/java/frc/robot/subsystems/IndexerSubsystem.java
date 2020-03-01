@@ -19,24 +19,42 @@ public class IndexerSubsystem extends SubsystemBase {
   private final CANSparkMax lowerMotor = new CANSparkMax(RobotMap.INDEXER_BACK_MOTOR, MotorType.kBrushless);
   private final AnalogInput ballSensorUpper = new AnalogInput(RobotMap.BALL_SENSOR_UPPER);
   private final AnalogInput ballSensorLower = new AnalogInput(RobotMap.BALL_SENSOR_LOWER);
+  private boolean feedToShooter = false;
 
   public IndexerSubsystem() {
   }
 
-  public void runBack() {
-    upperMotor.set(-.15);
-  }
-
-  public void runFront() {
-    lowerMotor.set(-0.55);
-  }
-
-  public void stopFront() {
+  private void stopFront() {
     lowerMotor.set(0);
   }
 
-  public void stopBack() {
+  private void stopBack() {
     upperMotor.set(0);
+  }
+
+  /** Runs both indexer wheels to feed balls into the shooter */
+  public void feedToShooter() {
+    feedToShooter = true;
+  }
+
+  @Override
+  public void periodic() {
+    if (feedToShooter) {
+      lowerMotor.set(-0.55);
+      upperMotor.set(-0.55);
+    } else {
+      if (!isLowerTriggered() || !isUpperTriggered()) {
+        lowerMotor.set(-0.55);
+      } else {
+        stopFront();
+      }
+      if (!isUpperTriggered()) {
+        upperMotor.set(-0.15);
+      } else {
+        stopBack();
+      }
+    }
+    feedToShooter = false;
   }
 
   public boolean isUpperTriggered() {

@@ -29,57 +29,27 @@
       }
     ]
   },
-  "Start line towards goal and shoot 3": {
-    "waypoints": [
-      {
-        "x": 308.15807186860275,
-        "y": 509.491575067852,
-        "heading": 121.5093084183726,
-        "handleBeforeLength": 20,
-        "handleAfterLength": 21.307493402680258
-      },
-      {
-        "x": 298.1942053292056,
-        "y": 549.3391708399696,
-        "heading": 90,
-        "handleBeforeLength": 20,
-        "handleAfterLength": 31.116365949364194
-      }
-    ],
-    "angles": [
-      {
-        "afterWaypoint": 0,
-        "t": 0.10000000000000007,
-        "angle": 1.5732518009908592
-      },
-      {
-        "afterWaypoint": 0,
-        "t": 0.9800000000000008,
-        "angle": 2.1664111325358437
-      }
-    ]
-  },
   "Start line towards trench and shoot 3": {
     "waypoints": [
       {
         "x": 309.359013399489,
-        "y": 509.7952359652204,
-        "heading": -113.20249138508004,
+        "y": 490.42089490240875,
+        "heading": -128.66506355124085,
         "handleBeforeLength": 20,
-        "handleAfterLength": 22.35680172348563
+        "handleAfterLength": 22.557348547573984
       },
       {
         "x": 290.56824074599785,
         "y": 418.20744185011057,
-        "heading": 270,
-        "handleBeforeLength": 29.355062216381327,
+        "heading": 255.96122146605234,
+        "handleBeforeLength": 24.207072218621395,
         "handleAfterLength": 20
       }
     ],
     "angles": [
       {
         "afterWaypoint": 0,
-        "t": 0.3820000000000003,
+        "t": 0.22800000000000017,
         "angle": 1.5707963267948966
       },
       {
@@ -89,27 +59,74 @@
       }
     ]
   },
+  "Start line towards rendezvous grab 2 and aim": {
+    "waypoints": [
+      {
+        "x": 309.359013399489,
+        "y": 490.42089490240875,
+        "heading": -128.66506355124085,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 22.557348547573984
+      },
+      {
+        "handleAfterLength": 43.63951008437194,
+        "handleBeforeLength": 24.3276332983447,
+        "heading": 278.32719397072594,
+        "x": 231.84707620383807,
+        "y": 398.2459995429713
+      },
+      {
+        "x": 290.56824074599785,
+        "y": 418.20744185011057,
+        "heading": 6.979757852750538,
+        "handleBeforeLength": 28.98819795228349,
+        "handleAfterLength": 27.84339922234436
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.10800000000000008,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.8920000000000007,
+        "angle": 0.7049142397182299
+      },
+      {
+        "afterWaypoint": 1,
+        "t": 0.002,
+        "angle": 0.6240505371744582
+      },
+      {
+        "afterWaypoint": 1,
+        "t": 0.9720000000000008,
+        "angle": 1.82404234290111
+      }
+    ]
+  },
   "Start line to Steal 2 and Aim": {
     "waypoints": [
       {
         "x": 13.40434410700358,
         "y": 502.7500210332888,
-        "heading": -68.80231191567083,
+        "heading": -64.28583509142045,
         "handleBeforeLength": 20,
-        "handleAfterLength": 30.855707769436535
+        "handleAfterLength": 35.18815813975155
       },
       {
         "handleAfterLength": 102.92642646061579,
         "handleBeforeLength": 22.2826963100384,
         "heading": 16.571062592641617,
-        "x": 28.67184688796513,
+        "x": 30.43348182422992,
         "y": 402.35570825326465
       },
       {
         "x": 290.56824074599785,
         "y": 418.7945430944382,
-        "heading": 323.26835726128684,
-        "handleBeforeLength": 101.11131691847271,
+        "heading": 323.0738004146025,
+        "handleBeforeLength": 109.44888459549811,
         "handleAfterLength": 20
       }
     ],
@@ -122,7 +139,7 @@
       {
         "afterWaypoint": 0,
         "t": 0.7620000000000006,
-        "angle": 1.598047945018436
+        "angle": 1.6520218145513372
       },
       {
         "afterWaypoint": 1,
@@ -215,24 +232,24 @@
   "Measurement": {
     "waypoints": [
       {
-        "x": 281.7600660646739,
-        "y": 190.99926029531895,
+        "x": 282.34727771009545,
+        "y": 186.8895515850256,
         "heading": 177.54141776501945,
         "handleBeforeLength": 20,
         "handleAfterLength": 95.80368626556012
       },
       {
-        "handleAfterLength": 59.27449156442602,
-        "handleBeforeLength": 58.49327523568338,
-        "heading": 125.60963360054134,
+        "handleAfterLength": 49.82187667476239,
+        "handleBeforeLength": 72.65801164537484,
+        "heading": 135.00538656841366,
         "x": 238.89361594889724,
         "y": 444.62699784485386
       },
       {
-        "x": 41.00329144181869,
-        "y": 435.8204791799394,
-        "heading": 193.15245222351805,
-        "handleBeforeLength": 157.39090701531302,
+        "x": 40.41607979639709,
+        "y": 440.51728913456043,
+        "heading": 192.9388346930773,
+        "handleBeforeLength": 141.58974956489237,
         "handleAfterLength": 31.796271544099376
       }
     ],
@@ -249,7 +266,37 @@
       }
     ]
   },
-  "Grab 5 from trench": {
+  "3 from trench to aim": {
+    "waypoints": [
+      {
+        "x": 296.440357200213,
+        "y": 323.097040269035,
+        "heading": 92.0457927896789,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 32.89863878350601
+      },
+      {
+        "x": 289.9810291005763,
+        "y": 418.20744185011057,
+        "heading": 94.66773207053983,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 28.863691010574236
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9,
+        "angle": 1.8025607736626257
+      }
+    ]
+  },
+  "Aim to 5 from trench": {
     "waypoints": [
       {
         "x": 290.56824074599785,
@@ -259,10 +306,10 @@
         "handleAfterLength": 30.804740897134796
       },
       {
-        "x": 296.4403572002139,
-        "y": 257.92880214866847,
-        "heading": 264.1594171951907,
-        "handleBeforeLength": 51.93450772431654,
+        "x": 306.422955172381,
+        "y": 259.69010588165133,
+        "heading": 282.4672035203329,
+        "handleBeforeLength": 57.12155951461298,
         "handleAfterLength": 21.730681375423217
       }
     ],
@@ -275,7 +322,49 @@
       {
         "afterWaypoint": 0,
         "t": 0.9,
+        "angle": 1.588389375510338
+      }
+    ]
+  },
+  "3 from trench to 2 rendezvous to aim": {
+    "waypoints": [
+      {
+        "x": 296.440357200213,
+        "y": 323.097040269035,
+        "heading": 170.53942463179072,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 42.862210151486494
+      },
+      {
+        "handleAfterLength": 15.600004431727651,
+        "handleBeforeLength": 58.112233327716865,
+        "heading": 108.25510041943055,
+        "x": 230.6726529129949,
+        "y": 398.2459995429713
+      },
+      {
+        "x": 289.9810291005763,
+        "y": 418.20744185011057,
+        "heading": 315.42359592856394,
+        "handleBeforeLength": 56.88156917728916,
+        "handleAfterLength": 28.863691010574236
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0,
         "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.8660000000000007,
+        "angle": -0.3098662025570018
+      },
+      {
+        "afterWaypoint": 1,
+        "t": 0.9800000000000008,
+        "angle": 1.8025607736626257
       }
     ]
   }

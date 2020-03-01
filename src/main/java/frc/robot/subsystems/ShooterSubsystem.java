@@ -59,15 +59,15 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSpeed() {
-    return Math.abs(encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower) < 5
-        && Math.abs(encToRPM(upperMotor.getSelectedSensorVelocity()) - upper) < 5;
+    return Math.abs(encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower) < 10
+        && Math.abs(encToRPM(upperMotor.getSelectedSensorVelocity()) - upper) < 10;
   }
 
   @Override
   public void periodic() {
     lower = 0;
     upper = 0;
-    System.out.println(encToRPM(upperMotor.getSelectedSensorVelocity(1)));
+    // System.out.println(encToRPM(upperMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
         upper = RobotMap.isPractice ? -0 : -2590;

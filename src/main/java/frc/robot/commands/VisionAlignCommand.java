@@ -51,7 +51,8 @@ public class VisionAlignCommand extends CommandBase {
 
         final var rotation = pid.calculate(error, 0);
 
-        if (error < 0.01 && error != 0)
+        // If it is facing the goal and done rotating
+        if (error < 0.05 && drive.getAngularVelocity() < 0.5)
             isFinished = true;
 
         final var now = Timer.getFPGATimestamp();

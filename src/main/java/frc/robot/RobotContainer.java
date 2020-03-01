@@ -10,10 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunClimberCommand;
-import frc.robot.commands.RunIndexerCommand;
 import frc.robot.commands.VisionAlignCommand;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -32,13 +32,12 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterDistances;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DrivetrainSubsystem mDrivetrainSubsystem = DrivetrainSubsystem.getInstance();
-  private final ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
-  private final IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
-  private final IndexerSubsystem mIndexerSubsystem = new IndexerSubsystem();
-  private final ClimberSubsystem mClimberSubsystem = new ClimberSubsystem();
-  private final SpinnerSubsystem mSpinnerSubsystem = new SpinnerSubsystem();
+  private final DrivetrainSubsystem drivetrain = DrivetrainSubsystem.getInstance();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final IndexerSubsystem indexer = new IndexerSubsystem();
+  private final ClimberSubsystem climber = new ClimberSubsystem();
+  private final SpinnerSubsystem spinner = new SpinnerSubsystem();
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
   private final JoystickButton shooterCloseButton = new JoystickButton(operatorController, 3);
@@ -48,16 +47,15 @@ public class RobotContainer {
   private final JoystickButton outtakeButton = new JoystickButton(operatorController, 5);
   private final JoystickButton spinnerButton = new JoystickButton(driverController, 6);
   private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 1);
+  private final Button runIndexerButton = new AxisTrigger(operatorController, 3);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
     configureButtonBindings();
-    DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(mDrivetrainSubsystem, driverController));
-    mClimberSubsystem.setDefaultCommand(new RunClimberCommand(mClimberSubsystem, driverController));
-    mIndexerSubsystem.setDefaultCommand(new RunIndexerCommand(mIndexerSubsystem, operatorController));
+    DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(drivetrain, driverController));
+    climber.setDefaultCommand(new RunClimberCommand(climber, driverController));
   }
 
   /**
@@ -68,25 +66,24 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // controller.get().whenPressed(new InstantCommand(() ->
-    // DrivetrainSubsystem.getInstance().resetGyroAngle(Rotation2.ZERO)
-    // ));
-    shooterCloseButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_LINE), mShooterSubsystem);
-    shooterMediumButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.FRONT_OF_TRENCH), mShooterSubsystem);
-    shooterFarButton.whileHeld(() -> mShooterSubsystem.run(ShooterDistances.BEHIND_TRENCH), mShooterSubsystem);
+    shooterCloseButton.whileHeld(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter);
+    shooterMediumButton.whileHeld(() -> shooter.run(ShooterDistances.FRONT_OF_TRENCH), shooter);
+    shooterFarButton.whileHeld(() -> shooter.run(ShooterDistances.BEHIND_TRENCH), shooter);
 
-    intakeButton.whileHeld(() -> mIntakeSubsystem.intake(), mIntakeSubsystem);
-    intakeButton.whenPressed(() -> mIntakeSubsystem.extend(), mIntakeSubsystem);
-    intakeButton.whenReleased(() -> mIntakeSubsystem.retract(), mIntakeSubsystem);
-    intakeButton.whenReleased(() -> mIntakeSubsystem.stop(), mIntakeSubsystem);
+    intakeButton.whileHeld(intake::intake, intake);
+    intakeButton.whenPressed(intake::extend, intake);
+    intakeButton.whenReleased(intake::retract, intake);
+    intakeButton.whenReleased(intake::stop, intake);
 
-    outtakeButton.whileHeld(() -> mIntakeSubsystem.outtake(), mIntakeSubsystem);
-    outtakeButton.whenReleased(() -> mIntakeSubsystem.stop(), mIntakeSubsystem);
+    outtakeButton.whileHeld(intake::outtake, intake);
+    outtakeButton.whenReleased(intake::stop, intake);
 
-    spinnerButton.whenPressed(() -> mSpinnerSubsystem.run(), mSpinnerSubsystem);
-    spinnerButton.whenReleased(() -> mSpinnerSubsystem.stop(), mSpinnerSubsystem);
+    spinnerButton.whenPressed(spinner::run, spinner);
+    spinnerButton.whenReleased(spinner::stop, spinner);
 
-    visionTrackingButton.whileHeld(new VisionAlignCommand(mDrivetrainSubsystem));
+    visionTrackingButton.whileHeld(new VisionAlignCommand(drivetrain));
+
+    runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
   }
 
   /**
@@ -95,9 +92,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    // return new DriveForward(mDrivetrainSubsystem);
-    // return new TestPathAuto(mDrivetrainSubsystem);
-    return new TrenchAuto(mDrivetrainSubsystem, mShooterSubsystem, mIndexerSubsystem);
+    // return new DriveForward(drivetrain);
+    // return new TestPathAuto(drivetrain);
+    return new TrenchAuto(drivetrain, shooter, indexer, intake);
   }
 }
