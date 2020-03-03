@@ -25,7 +25,6 @@ public class VisionAlignCommand extends CommandBase {
 
     private final PIDController pid = new PIDController(kP, kI, kD);
     private final DrivetrainSubsystem drive;
-    private boolean isFinished = false;
 
     public VisionAlignCommand(DrivetrainSubsystem drive) {
         this.drive = drive;
@@ -37,26 +36,24 @@ public class VisionAlignCommand extends CommandBase {
         Limelight.enableTracking();
     }
 
+    /** Returns the vision tracking error in degrees (from -27 to 27) */
+    private static double getError() {
+        return Limelight.getTargetAngle().x;
+    }
+
     @Override
     public void execute() {
         if (!Limelight.hasTarget())
             return;
 
-        // from -27 to 27
-        final var error = Limelight.getTargetAngle().x;
-
-        final var rotation = pid.calculate(error, 0);
-
-        // If it is facing the goal and done rotating
-        if (error < 0.1 && drive.getAngularVelocity() < 0.5)
-            isFinished = true;
+        final var rotation = pid.calculate(getError(), 0);
 
         drive.drive(Vector2.ZERO, rotation, false);
     }
 
-    @Override
-    public boolean isFinished() {
-        return isFinished;
+    public static boolean isAligned() {
+        // If it is facing the goal and done rotating
+        return getError() < 0.1 && DrivetrainSubsystem.getInstance().getAngularVelocity() < 0.5;
     }
 
     @Override

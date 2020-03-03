@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     clearAutoCommand();
+    FollowPathCommand.onDisabled();
   }
 
   @Override
@@ -88,7 +89,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // Reset so that if you enable auto multiple times, it does reset
-    FollowPathCommand.isFirstPath = true;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

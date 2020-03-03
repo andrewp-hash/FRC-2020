@@ -21,7 +21,6 @@ import org.frcteam2910.common.kinematics.SwerveOdometry;
 import org.frcteam2910.common.math.RigidTransform2;
 import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
-import org.frcteam2910.common.robot.UpdateManager;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
@@ -87,6 +86,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0), // Back Left
             new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0) // Back Right
     );
+    private final static HolonomicDriveSignal ZeroDriveSignal = new HolonomicDriveSignal(Vector2.ZERO, 0, false);
     private final SwerveOdometry odometry = new SwerveOdometry(kinematics,
             new RigidTransform2(new Vector2(TRACKWIDTH / 2, WHEELBASE / 2), Rotation2.fromDegrees(90)));
 
@@ -190,6 +190,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         HolonomicDriveSignal driveSignal;
         synchronized (stateLock) {
             driveSignal = driveSignal$stateLock;
+            driveSignal$stateLock = ZeroDriveSignal;
         }
 
         updateModules(driveSignal, dt);
@@ -232,14 +233,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1.0);
 
         for (int i = 0; i < modules.length; i++) {
-            var module = modules[i];
+            final var module = modules[i];
             module.setTargetVelocity(moduleOutputs[i]);
             module.updateState(dt);
         }
     }
 
     private void updatePoseNT() {
-        var pose = getScaledPose();
+        final var pose = getScaledPose();
 
         currentAngleEntry.setDouble(pose.rotation.toRadians());
         currentXEntry.setDouble(pose.translation.x);

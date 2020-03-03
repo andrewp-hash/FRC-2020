@@ -18,7 +18,6 @@ public class FollowPathCommand extends CommandBase {
     private final Trajectory trajectory;
     private double startTime = 0;
     private double endTime = 0;
-    public static boolean isFirstPath = true;
 
     private final String pathName;
 
@@ -36,13 +35,20 @@ public class FollowPathCommand extends CommandBase {
     private final PIDController pid_y = new PIDController(translation_kP, translation_kI, translation_kD);
     private final PIDController pid_rotation = new PIDController(rotation_kP, rotation_kI, rotation_kD);
 
-    private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
-    private final NetworkTable pathFollowingTable = nt.getTable("/pathFollowing");
-    private final NetworkTable targetPoseTable = nt.getTable("/pathFollowing/target");
-    private final NetworkTableEntry targetXEntry = targetPoseTable.getEntry("x");
-    private final NetworkTableEntry targetYEntry = targetPoseTable.getEntry("y");
-    private final NetworkTableEntry targetAngleEntry = targetPoseTable.getEntry("angle");
-    private final NetworkTableEntry currentPathEntry = pathFollowingTable.getEntry("currentPath");
+    private static final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+    private static final NetworkTable pathFollowingTable = nt.getTable("/pathFollowing");
+    private static final NetworkTable targetPoseTable = nt.getTable("/pathFollowing/target");
+    private static final NetworkTableEntry targetXEntry = targetPoseTable.getEntry("x");
+    private static final NetworkTableEntry targetYEntry = targetPoseTable.getEntry("y");
+    private static final NetworkTableEntry targetAngleEntry = targetPoseTable.getEntry("angle");
+    private static final NetworkTableEntry currentPathEntry = pathFollowingTable.getEntry("currentPath");
+
+    private static boolean isFirstPath = true;
+
+    public static void onDisabled() {
+        isFirstPath = false;
+        currentPathEntry.setString("");
+    }
 
     public FollowPathCommand(DrivetrainSubsystem drivetrain, String pathName) {
         addRequirements(drivetrain);
@@ -116,7 +122,7 @@ public class FollowPathCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        currentPathEntry.setBoolean(false);
+        currentPathEntry.setString("");
     }
 
 }
