@@ -28,7 +28,7 @@ public class AutonomousAlignShootCommand extends SequentialCommandGroup {
                         // And that it will run the below commands in parallel
                         // But it won't wait for the below commands to finish before moving on
                         .deadlineWith(
-                                // In parallel aim
+                                // At the same time align
                                 new VisionAlignCommand(drive),
                                 // And spin up shooter
                                 new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter)
