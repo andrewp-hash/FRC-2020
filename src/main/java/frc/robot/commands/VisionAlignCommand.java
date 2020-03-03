@@ -48,7 +48,7 @@ public class VisionAlignCommand extends CommandBase {
         final var rotation = pid.calculate(error, 0);
 
         // If it is facing the goal and done rotating
-        if (error < 0.05 && drive.getAngularVelocity() < 0.5)
+        if (error < 0.1 && drive.getAngularVelocity() < 0.5)
             isFinished = true;
 
         drive.drive(Vector2.ZERO, rotation, false);

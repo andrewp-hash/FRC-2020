@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -15,8 +16,9 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterDistances;
 public class AutonomousAlignShootCommand extends ParallelCommandGroup {
     public AutonomousAlignShootCommand(DrivetrainSubsystem drive, ShooterSubsystem shooter, IndexerSubsystem indexer) {
 
-        addCommands(new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE)),
-                sequence(new VisionAlignCommand(drive).withTimeout(1.5), new WaitUntilCommand(shooter::isAtSpeed),
-                        new RunCommand(indexer::feedToShooter).withTimeout(3)));
+        addCommands(sequence(new WaitCommand(1.5), new WaitUntilCommand(shooter::isAtSpeed),
+                new RunCommand(indexer::feedToShooter).withTimeout(2)).deadlineWith(
+                        new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE)),
+                        new VisionAlignCommand(drive)));
     }
 }

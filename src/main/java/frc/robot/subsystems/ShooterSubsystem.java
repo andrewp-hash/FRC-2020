@@ -5,6 +5,9 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -15,6 +18,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterDistances distance = ShooterDistances.BEHIND_TRENCH;
   private int lower = 0;
   private int upper = 0;
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable shooterTable = nt.getTable("/shooter");
+  private final NetworkTableEntry upperErrorEntry = shooterTable.getEntry("error/upper");
+  private final NetworkTableEntry lowerErrorEntry = shooterTable.getEntry("error/lower");
 
   public enum ShooterDistances {
     BEHIND_TRENCH, FRONT_OF_TRENCH, BEHIND_LINE
@@ -59,8 +66,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSpeed() {
-    return Math.abs(encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower) < 10
-        && Math.abs(encToRPM(upperMotor.getSelectedSensorVelocity()) - upper) < 10;
+    final var lowerError = encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower;
+    final var upperError = encToRPM(upperMotor.getSelectedSensorVelocity()) - upper;
+    upperErrorEntry.setDouble(upperError);
+    lowerErrorEntry.setDouble(lowerError);
+    return Math.abs(lowerError) < 50 && Math.abs(upperError) < 50;
   }
 
   @Override
@@ -70,8 +80,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // System.out.println(encToRPM(upperMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
-        upper = RobotMap.isPractice ? -0 : -2590;
-        lower = RobotMap.isPractice ? 5250 : 3900;
+        upper = RobotMap.isPractice ? -0 : -2190;
+        lower = RobotMap.isPractice ? 5250 : 3100;
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
         upper = RobotMap.isPractice ? -4875 : -2290;
         lower = RobotMap.isPractice ? 3920 : 3900;
