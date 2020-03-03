@@ -9,12 +9,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunClimberCommand;
 import frc.robot.commands.VisionAlignCommand;
+import frc.robot.commands.autonomous.DriveForward;
+import frc.robot.commands.autonomous.TestPathAuto;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -49,6 +53,7 @@ public class RobotContainer {
   private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 1);
   private final Button runIndexerButton = new AxisTrigger(operatorController, 3);
   private final Button runIndexerReverseButton = new AxisTrigger(operatorController, 2);
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,6 +62,12 @@ public class RobotContainer {
     configureButtonBindings();
     DrivetrainSubsystem.getInstance().setDefaultCommand(new DriveCommand(drivetrain, driverController));
     climber.setDefaultCommand(new RunClimberCommand(climber, driverController));
+
+    autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
+    autoChooser.addOption("Test Path (not for matches)", new TestPathAuto(drivetrain));
+    autoChooser.setDefaultOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+
+    SmartDashboard.putData("Auto Selector", autoChooser);
   }
 
   /**
@@ -94,8 +105,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return new DriveForward(drivetrain);
-    // return new TestPathAuto(drivetrain);
-    return new TrenchAuto(drivetrain, shooter, indexer, intake);
+    return autoChooser.getSelected();
   }
 }
