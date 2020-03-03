@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -17,11 +18,11 @@ public class AutonomousAlignShootCommand extends SequentialCommandGroup {
 
         addCommands(sequence(
                 // Wait for shooter to be at speed
-                new WaitUntilCommand(shooter::isAtSpeed),
+                new PrintCommand("Waiting for shooter wheels"), new WaitUntilCommand(shooter::isAtSpeed),
                 // Wait for vision to be aligned
-                new WaitUntilCommand(VisionAlignCommand::isAligned),
+                new PrintCommand("Waiting for vision align"), new WaitUntilCommand(VisionAlignCommand::isAligned),
                 // Then feed balls into shooter for 2 seconds
-                new RunCommand(indexer::feedToShooter).withTimeout(2))
+                new PrintCommand("Feeding balls"), new RunCommand(indexer::feedToShooter).withTimeout(2))
                         // DeadlineWith means AutonomousAlignShootCommand will end when the above
                         // sequence ends,
                         // And that it will run the below commands in parallel

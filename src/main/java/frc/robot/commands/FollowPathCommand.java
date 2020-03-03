@@ -59,6 +59,7 @@ public class FollowPathCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("Following path: " + pathName);
         startTime = Timer.getFPGATimestamp();
         var lastPoint = trajectory.points[trajectory.points.length - 1];
         endTime = startTime + lastPoint.time;

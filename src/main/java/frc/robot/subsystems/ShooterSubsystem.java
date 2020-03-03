@@ -77,7 +77,6 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     lower = 0;
     upper = 0;
-    // System.out.println(encToRPM(upperMotor.getSelectedSensorVelocity(1)));
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
         upper = RobotMap.isPractice ? -0 : -2190;
