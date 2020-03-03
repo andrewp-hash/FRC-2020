@@ -20,15 +20,16 @@ public class IndexerSubsystem extends SubsystemBase {
   private final AnalogInput ballSensorUpper = new AnalogInput(RobotMap.BALL_SENSOR_UPPER);
   private final AnalogInput ballSensorLower = new AnalogInput(RobotMap.BALL_SENSOR_LOWER);
   private boolean feedToShooter = false;
+  private boolean reverse = false;
 
   public IndexerSubsystem() {
   }
 
-  private void stopFront() {
+  private void stopLower() {
     lowerMotor.set(0);
   }
 
-  private void stopBack() {
+  private void stopUpper() {
     upperMotor.set(0);
   }
 
@@ -37,24 +38,31 @@ public class IndexerSubsystem extends SubsystemBase {
     feedToShooter = true;
   }
 
+  public void reverse() {
+    reverse = true;
+  }
+
   @Override
   public void periodic() {
-    if (feedToShooter) {
-      lowerMotor.set(-0.55);
-      upperMotor.set(-0.55);
+    if (reverse) {
+      lowerMotor.set(0.3);
+    } else if (feedToShooter) {
+      lowerMotor.set(-0.85);
+      upperMotor.set(-0.25);
     } else {
       if (!isLowerTriggered() || !isUpperTriggered()) {
         lowerMotor.set(-0.55);
       } else {
-        stopFront();
+        stopLower();
       }
       if (!isUpperTriggered()) {
         upperMotor.set(-0.15);
       } else {
-        stopBack();
+        stopUpper();
       }
     }
     feedToShooter = false;
+    reverse = false;
   }
 
   public boolean isUpperTriggered() {

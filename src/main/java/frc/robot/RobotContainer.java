@@ -48,6 +48,7 @@ public class RobotContainer {
   private final JoystickButton spinnerButton = new JoystickButton(driverController, 6);
   private final JoystickButton visionTrackingButton = new JoystickButton(driverController, 1);
   private final Button runIndexerButton = new AxisTrigger(operatorController, 3);
+  private final Button runIndexerReverseButton = new AxisTrigger(operatorController, 2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,6 +85,7 @@ public class RobotContainer {
     visionTrackingButton.whileHeld(new VisionAlignCommand(drivetrain));
 
     runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
+    runIndexerReverseButton.whileHeld(indexer::reverse, indexer);
   }
 
   /**
