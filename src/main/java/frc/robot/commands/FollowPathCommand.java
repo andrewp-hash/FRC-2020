@@ -55,6 +55,7 @@ public class FollowPathCommand extends CommandBase {
         this.drivetrain = drivetrain;
         trajectory = Trajectory.fromJSON(pathName);
         this.pathName = pathName;
+        pid_rotation.enableContinuousInput(0, 2 * Math.PI);
     }
 
     @Override
