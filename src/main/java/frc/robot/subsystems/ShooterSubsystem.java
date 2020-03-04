@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
     lowerMotor.configFactoryDefault(40);
     lowerMotor.enableVoltageCompensation(true);
     upperMotor.enableVoltageCompensation(true);
-    double kP = .5;
+    double kP = 0.5;
     double kI = 0;
     double kD = 0;
     double kF = 0;
@@ -79,14 +79,16 @@ public class ShooterSubsystem extends SubsystemBase {
     upper = 0;
     if (isRunning) {
       if (distance == ShooterDistances.BEHIND_LINE) {
-        upper = RobotMap.isPractice ? -0 : -2190;
-        lower = RobotMap.isPractice ? 5250 : 3100;
+        upper = RobotMap.isPractice ? -0 : -3000;
+        lower = RobotMap.isPractice ? 5250 : 2000;
       } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upper = RobotMap.isPractice ? -4875 : -2290;
-        lower = RobotMap.isPractice ? 3920 : 3900;
+        upper = RobotMap.isPractice ? -4875 : -2300;
+        lower = RobotMap.isPractice ? 3920 : 3100;
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
-        upper = RobotMap.isPractice ? -5190 : -5650;
-        lower = RobotMap.isPractice ? 3920 : 2520;
+        upper = RobotMap.isPractice ? -5190 : 4500;
+
+        lower = RobotMap.isPractice ? 3920 : 3500;
+
       }
 
       if (upper == 0) {
