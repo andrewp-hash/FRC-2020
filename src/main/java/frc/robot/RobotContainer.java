@@ -66,8 +66,8 @@ public class RobotContainer {
 
     autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
     autoChooser.addOption("Test Path (not for matches)", new TestPathAuto(drivetrain));
-    autoChooser.addOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
-    autoChooser.setDefaultOption("Steal 2", new Steal2Auto(drivetrain, shooter, indexer, intake));
+    autoChooser.setDefaultOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    autoChooser.addOption("Steal 2", new Steal2Auto(drivetrain, shooter, indexer, intake));
 
     SmartDashboard.putData("Auto Selector", autoChooser);
   }
