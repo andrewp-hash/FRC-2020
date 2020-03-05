@@ -22,13 +22,14 @@ public class FollowPathCommand extends CommandBase {
     private final String pathName;
 
     private final double translation_kF_x = 0.006735;
-    private final double translation_kF_y = 0.00684;
-    private final double translation_kP = 0.02;
+    private final double translation_kF_y = 0.0072;
+    private final double translation_kP = 0.064;
     private final double translation_kI = 0.0;
     private final double translation_kD = 0.0;
 
     private final double rotation_kF = 0.013;
-    private final double rotation_kP = 0.04;
+    // private final double rotation_kP = 0.04;
+    private final double rotation_kP = 0.002;
     private final double rotation_kI = 0.0;
     private final double rotation_kD = 0.0;
     private final PIDController pid_x = new PIDController(translation_kP, translation_kI, translation_kD);
@@ -46,7 +47,7 @@ public class FollowPathCommand extends CommandBase {
     private static boolean isFirstPath = true;
 
     public static void onDisabled() {
-        isFirstPath = false;
+        isFirstPath = true;
         currentPathEntry.setString("");
     }
 

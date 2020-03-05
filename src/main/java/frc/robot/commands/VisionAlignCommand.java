@@ -19,7 +19,8 @@ public class VisionAlignCommand extends CommandBase {
     // private final double kD = 0.00;
 
     // option 3 - pd
-    private final double kP = 0.000755;
+    // private final double kP = 0.000755;
+    private final double kP = 0.00083;
     private final double kI = 0.0000;
     private final double kD = 0.00005;
 

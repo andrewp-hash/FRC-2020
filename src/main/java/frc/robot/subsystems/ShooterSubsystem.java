@@ -85,7 +85,7 @@ public class ShooterSubsystem extends SubsystemBase {
         upper = RobotMap.isPractice ? -4875 : -2300;
         lower = RobotMap.isPractice ? 3920 : 3100;
       } else if (distance == ShooterDistances.BEHIND_TRENCH) {
-        upper = RobotMap.isPractice ? -5190 : 4500;
+        upper = RobotMap.isPractice ? -5190 : -4500;
 
         lower = RobotMap.isPractice ? 3920 : 3500;
 

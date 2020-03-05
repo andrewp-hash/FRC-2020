@@ -18,6 +18,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunClimberCommand;
 import frc.robot.commands.VisionAlignCommand;
 import frc.robot.commands.autonomous.DriveForward;
+import frc.robot.commands.autonomous.Steal2Auto;
 import frc.robot.commands.autonomous.TestPathAuto;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -65,7 +66,8 @@ public class RobotContainer {
 
     autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
     autoChooser.addOption("Test Path (not for matches)", new TestPathAuto(drivetrain));
-    autoChooser.setDefaultOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    autoChooser.addOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    autoChooser.setDefaultOption("Steal 2", new Steal2Auto(drivetrain, shooter, indexer, intake));
 
     SmartDashboard.putData("Auto Selector", autoChooser);
   }

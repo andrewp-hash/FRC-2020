@@ -116,24 +116,24 @@
   "Start line to Steal 2 and Aim": {
     "waypoints": [
       {
-        "x": 13.40434410700358,
-        "y": 502.7500210332888,
+        "x": 14.046095744944592,
+        "y": 489.34300101290546,
         "heading": -64.28583509142045,
         "handleBeforeLength": 20,
         "handleAfterLength": 35.18815813975155
       },
       {
-        "handleAfterLength": 102.92642646061579,
+        "handleAfterLength": 33.65569042506398,
         "handleBeforeLength": 22.2826963100384,
-        "heading": 16.571062592641617,
-        "x": 30.43348182422992,
-        "y": 402.35570825326465
+        "heading": 19.53257056988298,
+        "x": 29.518399457891565,
+        "y": 407.77724042745206
       },
       {
-        "x": 290.56824074599785,
-        "y": 418.7945430944382,
-        "heading": 323.0738004146025,
-        "handleBeforeLength": 109.44888459549811,
+        "x": 116.72592947631996,
+        "y": 438.71597720124475,
+        "heading": 21.796940568836305,
+        "handleBeforeLength": 22.03947780841191,
         "handleAfterLength": 20
       }
     ],
@@ -156,7 +156,7 @@
       {
         "afterWaypoint": 1,
         "t": 0.9880000000000008,
-        "angle": 1.8162630441840204
+        "angle": 1.057897228835382
       }
     ]
   },
@@ -372,6 +372,66 @@
         "afterWaypoint": 1,
         "t": 0.9800000000000008,
         "angle": 1.8025607736626257
+      }
+    ]
+  },
+  "Start line to Steal 2": {
+    "waypoints": [
+      {
+        "x": 14.046095744944592,
+        "y": 486.5303885789243,
+        "heading": -70.45991877042879,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 92.51938539074088
+      },
+      {
+        "x": 28.111826393078204,
+        "y": 399.3394031255086,
+        "heading": 267.13705253355675,
+        "handleBeforeLength": 28.161273376131184,
+        "handleAfterLength": 87.20233019893692
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9,
+        "angle": 1.5707963267948966
+      }
+    ]
+  },
+  "Steal 2 to Aim": {
+    "waypoints": [
+      {
+        "x": 26.705253328264842,
+        "y": 399.3394031255086,
+        "heading": 74.742121537159,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 48.1037056298671
+      },
+      {
+        "x": 127.97851399482686,
+        "y": 437.3096709842542,
+        "heading": 0,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 20
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9,
+        "angle": 1.1208724324583057
       }
     ]
   }
