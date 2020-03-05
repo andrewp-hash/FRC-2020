@@ -1,9 +1,9 @@
 package frc.robot.commands.autonomous;
 
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AutonomousAlignShootCommand;
 import frc.robot.commands.FollowPathCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -27,8 +27,12 @@ public class Steal2Auto extends SequentialCommandGroup {
             new RunCommand(intake::intake),
             // Spin up shooter
             new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter)),
-        // wait
-        new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter).withTimeout(2),
+        // Wait
+        new WaitCommand(0.5).deadlineWith(
+            // While keeping shooter running
+            new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter),
+            // While keeping intake running
+            new RunCommand(intake::intake)),
         // Fold up intake
         new InstantCommand(intake::retract),
         // Stop intake wheels
