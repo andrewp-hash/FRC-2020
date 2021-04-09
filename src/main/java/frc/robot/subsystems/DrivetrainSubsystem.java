@@ -24,12 +24,21 @@ import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.drivers.Mk2SwerveModuleBuilder;
 import org.frcteam2910.common.robot.drivers.NavX;
 import org.frcteam2910.common.util.HolonomicDriveSignal;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.RobotMap.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 17.5;
     private static final double WHEELBASE = 26;
+
+    public static final double DRIVETRAIN_FRONT_LEFT_MODULE_ANGLE_OFFSET = -Math.toRadians(117);
+    public static final double DRIVETRAIN_FRONT_RIGHT_MODULE_ANGLE_OFFSET = -Math.toRadians(196.8);
+    public static final double DRIVETRAIN_BACK_LEFT_MODULE_ANGLE_OFFSET = -Math.toRadians(352);    
+    public static final double DRIVETRAIN_BACK_RIGHT_MODULE_ANGLE_OFFSET = -Math.toRadians(352);
+
+
+
 
     private static final DrivetrainSubsystem instance;
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
@@ -127,6 +136,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         ShuffleboardLayout backRightModuleContainer = tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                 .withPosition(7, 0).withSize(2, 3);
         moduleAngleEntries[3] = backRightModuleContainer.add("Angle", 0.0).getEntry();
+
+
+
     }
 
     public static DrivetrainSubsystem getInstance() {
@@ -252,5 +264,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         updatePoseNT();
         update();
+        
+        SmartDashboard.putNumber("Front Left Module Angle", Math.toDegrees(frontLeftModule.getCurrentAngle()));
+        SmartDashboard.putNumber("Front Right Module Angle", Math.toDegrees(frontRightModule.getCurrentAngle()));
+        SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
+        SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
     }
 }

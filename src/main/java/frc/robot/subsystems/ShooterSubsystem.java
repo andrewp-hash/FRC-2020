@@ -66,8 +66,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean isAtSpeed() {
-    final var lowerError = encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower;
-    final var upperError = encToRPM(upperMotor.getSelectedSensorVelocity()) - upper;
+    final double lowerError = encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower;
+    final double upperError = encToRPM(upperMotor.getSelectedSensorVelocity()) - upper;
     upperErrorEntry.setDouble(upperError);
     lowerErrorEntry.setDouble(lowerError);
     return Math.abs(lowerError) < 50 && Math.abs(upperError) < 50;
